@@ -1,0 +1,42 @@
+.categories-section {
+  padding: 4rem 0;
+  background-color: var(--color-bg-primary);
+}
+
+.cats-grid {
+  gap: 1.5rem;
+}
+
+.cat-card {
+  background: var(--color-bg-subtle);
+  border: var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-icon {
+  color: var(--color-brand-secondary);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--color-brand-tertiary);
+  border-radius: 50%;
+  display: inline-flex;
+}
+
+.cat-name {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 768px) {
+  .cats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

@@ -1,0 +1,33 @@
+.b2b-section {
+  background-color: var(--color-brand-primary);
+  color: #FFFFFF;
+  padding: 5rem 1rem;
+  text-align: center;
+}
+
+.b2b-container {
+  max-width: 800px;
+}
+
+.b2b-title {
+  color: #FFFFFF;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.b2b-sub {
+  color: var(--color-brand-accent);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.b2b-btn {
+  background-color: #FFFFFF;
+  color: var(--color-brand-primary);
+  font-weight: 600;
+  padding: 1rem 2rem;
+}
+
+.b2b-btn:hover {
+  background-color: var(--color-brand-tertiary);
+}
