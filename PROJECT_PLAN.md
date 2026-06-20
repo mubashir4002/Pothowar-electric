@@ -35,7 +35,7 @@ Below is the clear, step-by-step plan for the entire project, including what has
 ### Phase 3: Secondary Pages & Cart System (🚧 In Progress)
 - [x] **Products/Categories Page:** Expanded placeholder into a full interactive product catalog grid with search, category filtering, and price filters.
 - [x] **Global Cart & Drawer:** Implemented a global `CartContext` and a slide-out checkout drawer enabling users to manage quantities and place orders via WhatsApp checkout.
-- [ ] **B2B / Bulk Page:** Build out the detailed contractor inquiry form and benefits section.
+- [x] **B2B / Bulk Page:** Built a full contractor inquiry page with hero stats, 6 benefit cards, process steps, validated form, and WhatsApp submission.
 - [ ] **About Page:** Create a company history and mission page to build trust in Rawalpindi.
 - [ ] **Contact Page:** Integrate a contact form, Google Maps location, and business hours.
 
