@@ -20,7 +20,8 @@ const Login = () => {
       await signIn(email, password);
       navigate('/admin/dashboard');
     } catch (err) {
-      setError('Invalid email or password. Please try again.');
+      console.error('Supabase login error:', err);
+      setError(err.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +44,7 @@ const Login = () => {
             <input
               type="email"
               className="form-control"
-              placeholder="admin@pothowarelectric.pk"
+              placeholder="e.g. admin@gmail.com"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(''); }}
               required
