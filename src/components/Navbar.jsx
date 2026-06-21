@@ -36,6 +36,7 @@ const Navbar = () => {
           <div className="nav-links">
             <Link to="/products" className="nav-link">Products</Link>
             <Link to="/b2b" className="nav-link">Bulk Order</Link>
+            <Link to="/about" className="nav-link">About</Link>
             <Link to="/contact" className="nav-link">Contact</Link>
             <button className="icon-btn hover-scale" aria-label="Search">
               <IconSearch size={20} />
