@@ -3,19 +3,26 @@ import { IconBulb, IconWind, IconSolarPanel, IconBrandWhatsapp } from '@tabler/i
 import { useCart } from '../context/CartContext';
 import './FeaturedProducts.css';
 
-const products = [
-  { id: 101, name: 'LED Bulb 12W', price: 180, icon: <IconBulb size={48} /> },
-  { id: 102, name: 'Ceiling Fan 56"', price: 4500, icon: <IconWind size={48} /> },
-  { id: 103, name: 'Solar Panel 100W', price: 12000, icon: <IconSolarPanel size={48} /> },
-];
+import { useProduct } from '../context/ProductContext';
 
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
+  const { products: allProducts } = useProduct();
+  const products = allProducts.slice(0, 3); // Take first 3 for featured
+
+  const getIconForCategory = (cat) => {
+    switch (cat) {
+      case 'LED Lights': return <IconBulb size={48} />;
+      case 'Fans': return <IconWind size={48} />;
+      case 'Solar': return <IconSolarPanel size={48} />;
+      default: return <IconBulb size={48} />;
+    }
+  };
 
   const handleWhatsAppAsk = (prod) => {
     const message = `Hi Pothowar Electric, I want to ask about ${prod.name} (Price: Rs. ${prod.price.toLocaleString()}). Is it currently in stock?`;
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/923001234567?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/923348700655?text=${encoded}`, '_blank');
   };
 
   return (
@@ -26,7 +33,7 @@ const FeaturedProducts = () => {
           {products.map(prod => (
             <div key={prod.id} className="prod-card hover-scale">
               <div className="prod-img">
-                {React.cloneElement(prod.icon, { className: 'prod-icon-svg' })}
+                {React.cloneElement(getIconForCategory(prod.category), { className: 'prod-icon-svg' })}
               </div>
               <div className="prod-info">
                 <h3 className="prod-name">{prod.name}</h3>

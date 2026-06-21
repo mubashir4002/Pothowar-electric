@@ -110,7 +110,7 @@ const B2B = () => {
       `*Estimated Budget:* ${form.budget || 'N/A'}\n` +
       `*Additional Details:* ${form.message || 'None'}\n\n` +
       `Please provide a bulk quotation at your earliest.`;
-    window.open(`https://wa.me/923001234567?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/923348700655?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   const handleSubmit = (e) => {

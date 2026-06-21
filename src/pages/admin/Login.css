@@ -1,0 +1,116 @@
+/* ================================
+   ADMIN LOGIN STYLES
+================================ */
+
+.admin-login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--color-bg-subtle);
+  font-family: var(--font-body);
+}
+
+.login-card {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 400px;
+  padding: 3rem 2.5rem;
+  text-align: center;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--color-brand-primary);
+  margin-bottom: 2rem;
+}
+
+.login-logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.login-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: left;
+}
+
+.login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-form .form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.login-form .form-control {
+  padding: 0.75rem 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.login-form .form-control:focus {
+  border-color: var(--color-brand-secondary);
+  box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.1);
+}
+
+.login-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  text-align: center;
+}
+
+.login-btn {
+  background-color: var(--color-brand-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.login-btn:hover {
+  background-color: var(--color-brand-secondary);
+}
+
+.login-hint {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+  background: var(--color-bg-subtle);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed #E5E7EB;
+}

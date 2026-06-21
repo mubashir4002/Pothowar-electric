@@ -17,7 +17,7 @@ import './About.css';
 const About = () => {
   const handleWhatsApp = () => {
     const message = `Hello Pothowar Electric, I am reaching out from your website's About page.`;
-    window.open(`https://wa.me/923001234567?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/923348700655?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   return (

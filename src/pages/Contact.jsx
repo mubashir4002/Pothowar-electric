@@ -37,11 +37,12 @@ const Contact = () => {
       `*Subject:* ${form.subject || 'General Inquiry'}\n` +
       `*Message:* ${form.message}`;
 
-    window.open(`https://wa.me/923001234567?text=${encodeURIComponent(waMessage)}`, '_blank');
+    window.open(`https://wa.me/923348700655?text=${encodeURIComponent(waMessage)}`, '_blank');
   };
 
   return (
     <>
+
       {/* ─── Hero Section ─── */}
       <section className="contact-hero">
         <div className="container">
@@ -59,16 +60,16 @@ const Contact = () => {
 
             {/* Left: Contact Info */}
             <div className="contact-info-wrapper">
-              
+
               <div className="info-section">
                 <h2 className="info-block-header">Get In Touch</h2>
-                
+
                 <div className="info-item">
                   <div className="info-icon"><IconPhone size={24} /></div>
                   <div className="info-content">
                     <h4>Phone & WhatsApp</h4>
-                    <p>051-1234567 (Landline)</p>
-                    <p>+92 300 1234567 (WhatsApp)</p>
+                    <p>051-5530360 (Landline)</p>
+                    <p>+92 3348700655 (WhatsApp)</p>
                   </div>
                 </div>
 
@@ -85,20 +86,23 @@ const Contact = () => {
                   <div className="info-icon"><IconClock size={24} /></div>
                   <div className="info-content">
                     <h4>Business Hours</h4>
-                    <p>Monday - Saturday: 9:00 AM - 8:00 PM</p>
-                    <p>Sunday: Closed</p>
+                    <p>Monday - Thursday: 9:00 AM - 8:00 PM</p>
+                    <p>Friday: Closed</p>
+                    <p>Saturday - Sunday: 9:00 AM - 8:00 PM</p>
+
+
                   </div>
                 </div>
               </div>
 
               <div className="info-section" style={{ marginTop: '1rem' }}>
                 <h2 className="info-block-header">Our Locations</h2>
-                
+
                 <div className="info-item">
                   <div className="info-icon"><IconMapPin size={24} /></div>
                   <div className="info-content">
-                    <h4>Pothowar Electric</h4>
-                    <p>Shop #12, Saddar Road, Near Cantonment Hospital, Rawalpindi</p>
+                    <h4>Pothowar Traders</h4>
+                    <p>Iqbal Road Commetti Chowk,Near Shirin Bakery, Rawalpindi</p>
                   </div>
                 </div>
 
@@ -124,11 +128,11 @@ const Contact = () => {
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label className="form-label" htmlFor="name">Full Name <span>*</span></label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      name="name" 
-                      className="form-control" 
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="form-control"
                       placeholder="Your Name"
                       value={form.name}
                       onChange={handleChange}
@@ -138,11 +142,11 @@ const Contact = () => {
 
                   <div className="form-group">
                     <label className="form-label" htmlFor="phone">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      id="phone" 
-                      name="phone" 
-                      className="form-control" 
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      className="form-control"
                       placeholder="0300-1234567"
                       value={form.phone}
                       onChange={handleChange}
@@ -151,11 +155,11 @@ const Contact = () => {
 
                   <div className="form-group">
                     <label className="form-label" htmlFor="email">Email Address</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      name="email" 
-                      className="form-control" 
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="form-control"
                       placeholder="you@example.com"
                       value={form.email}
                       onChange={handleChange}
@@ -164,11 +168,11 @@ const Contact = () => {
 
                   <div className="form-group">
                     <label className="form-label" htmlFor="subject">Subject</label>
-                    <input 
-                      type="text" 
-                      id="subject" 
-                      name="subject" 
-                      className="form-control" 
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      className="form-control"
                       placeholder="How can we help?"
                       value={form.subject}
                       onChange={handleChange}
@@ -177,10 +181,10 @@ const Contact = () => {
 
                   <div className="form-group">
                     <label className="form-label" htmlFor="message">Message <span>*</span></label>
-                    <textarea 
-                      id="message" 
-                      name="message" 
-                      className="form-control" 
+                    <textarea
+                      id="message"
+                      name="message"
+                      className="form-control"
                       placeholder="Your message here..."
                       value={form.message}
                       onChange={handleChange}
@@ -204,12 +208,12 @@ const Contact = () => {
       <section className="map-section">
         <div className="container">
           <div className="map-container">
-            <iframe 
+            <iframe
               title="Pothowar Electric Location"
               className="map-iframe"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106312.3592881261!2d72.96445580666068!3d33.603126937666244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df948974419acb%3A0x984357e1632d30f!2sSaddar%2C%20Rawalpindi%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
-              allowFullScreen="" 
-              loading="lazy" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106312.3592881261!2d72.96445580666068!3d33.603126937666244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df948974419acb%3A0x984357e1632d30f!2sSaddar%2C%20Rawalpindi%2C%20Punjab%2C%20Pakistan!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+              allowFullScreen=""
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
