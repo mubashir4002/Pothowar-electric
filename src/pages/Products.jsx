@@ -7,6 +7,7 @@ import {
   IconPlug,
   IconSearch,
   IconBrandWhatsapp,
+  IconLoader,
 } from '@tabler/icons-react';
 import { Helmet } from 'react-helmet-async';
 import './Products.css';
@@ -31,7 +32,7 @@ const getCategoryIcon = (category) => {
 
 const Products = () => {
   const { addToCart } = useCart();
-  const { products: PRODUCT_DATA, categories } = useProduct();
+  const { products: PRODUCT_DATA, categories, loading } = useProduct();
   const CATEGORIES = ['All', ...categories];
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -141,7 +142,12 @@ const Products = () => {
               </span>
             </div>
 
-            {filteredProducts.length === 0 ? (
+            {loading ? (
+              <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--color-text-secondary)' }}>
+                <IconLoader className="spin" size={32} />
+                <p style={{ marginTop: '1rem' }}>Loading products from database...</p>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="no-results">
                 <h3 className="no-results-title">No Products Found</h3>
                 <p>Try resetting the filters or modifying your search query.</p>

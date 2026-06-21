@@ -15,6 +15,7 @@ import {
   IconPackage,
 } from '@tabler/icons-react';
 import { Helmet } from 'react-helmet-async';
+import { supabase } from '../lib/supabase';
 import './B2B.css';
 
 const BENEFITS = [
@@ -72,6 +73,7 @@ const B2B = () => {
   });
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -113,15 +115,40 @@ const B2B = () => {
     window.open(`https://wa.me/923348700655?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    setSubmitted(true);
-    handleWhatsApp();
+
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from('inquiries')
+        .insert([{
+          name: form.name,
+          company: form.company,
+          phone: form.phone,
+          email: form.email,
+          city: form.city,
+          categories: selectedCategories.join(', '),
+          quantity: form.quantity,
+          budget: form.budget,
+          message: form.message
+        }]);
+
+      if (error) throw error;
+      
+      setSubmitted(true);
+      handleWhatsApp();
+    } catch (err) {
+      console.error('Error submitting inquiry:', err);
+      alert('Failed to submit inquiry to the database. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
@@ -419,9 +446,9 @@ const B2B = () => {
 
                 {/* Submit Buttons */}
                 <div className="form-submit-row" style={{ marginTop: '1.5rem' }}>
-                  <button type="submit" className="btn-primary submit-btn-primary">
+                  <button type="submit" className="btn-primary submit-btn-primary" disabled={isSubmitting}>
                     <IconBrandWhatsapp size={20} />
-                    Send Inquiry via WhatsApp
+                    {isSubmitting ? 'Sending...' : 'Send Inquiry via WhatsApp'}
                   </button>
                   {submitted && (
                     <button type="button" className="btn-outline" onClick={handleReset} style={{ width: '100%', padding: '0.8rem', justifyContent: 'center' }}>

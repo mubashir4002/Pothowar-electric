@@ -179,3 +179,16 @@ button {
 @media (min-width: 1024px) {
   .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}

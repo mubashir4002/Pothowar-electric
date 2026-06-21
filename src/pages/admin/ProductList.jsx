@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useProduct } from '../../context/ProductContext';
-import { IconPlus, IconEdit, IconTrash, IconX, IconPhoto, IconUpload } from '@tabler/icons-react';
+import { supabase } from '../../lib/supabase';
+import { IconPlus, IconEdit, IconTrash, IconX, IconPhoto, IconUpload, IconLoader } from '@tabler/icons-react';
 import './ProductList.css';
 
 const ProductList = () => {
@@ -8,6 +9,8 @@ const ProductList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState('');
   const fileInputRef = useRef(null);
 
@@ -26,6 +29,7 @@ const ProductList = () => {
     setCurrentProduct(null);
     setForm({ ...blankForm, category: categories[0] || '' });
     setImagePreview(null);
+    setImageFile(null);
     setNewCategoryInput('');
     setIsModalOpen(true);
   };
@@ -34,6 +38,7 @@ const ProductList = () => {
     setCurrentProduct(product);
     setForm({ ...product });
     setImagePreview(product.image || null);
+    setImageFile(null);
     setNewCategoryInput('');
     setIsModalOpen(true);
   };
@@ -42,6 +47,7 @@ const ProductList = () => {
     setIsModalOpen(false);
     setCurrentProduct(null);
     setImagePreview(null);
+    setImageFile(null);
     setNewCategoryInput('');
   };
 
@@ -50,10 +56,11 @@ const ProductList = () => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle image file selection — convert to base64 data URL
+  // Handle image file selection
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    setImageFile(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
@@ -64,22 +71,55 @@ const ProductList = () => {
 
   const handleRemoveImage = () => {
     setImagePreview(null);
+    setImageFile(null);
     setForm(prev => ({ ...prev, image: null }));
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const productData = {
-      ...form,
-      price: Number(form.price),
-    };
-    if (currentProduct) {
-      editProduct({ ...productData, id: currentProduct.id });
-    } else {
-      addProduct(productData);
+    setIsUploading(true);
+    let imageUrl = form.image; // This might be base64 preview or old URL
+
+    try {
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${Math.random()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, imageFile);
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+
+        imageUrl = publicUrl;
+      }
+
+      const productData = {
+        ...form,
+        price: Number(form.price),
+        image: imageUrl, // Pass Supabase URL instead of Base64
+      };
+
+      if (currentProduct) {
+        await editProduct({ ...productData, id: currentProduct.id });
+      } else {
+        await addProduct(productData);
+      }
+      closeModal();
+    } catch (error) {
+      console.error('Error saving product:', error);
+      alert('Error saving product. Check console.');
+    } finally {
+      setIsUploading(false);
     }
-    closeModal();
   };
 
   const handleDelete = (id) => {
@@ -275,9 +315,9 @@ const ProductList = () => {
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="btn-outline" onClick={closeModal}>Cancel</button>
-                <button type="submit" className="btn-primary">
-                  {currentProduct ? 'Save Changes' : 'Add Product'}
+                <button type="button" className="btn-outline" onClick={closeModal} disabled={isUploading}>Cancel</button>
+                <button type="submit" className="btn-primary" disabled={isUploading}>
+                  {isUploading ? 'Saving...' : (currentProduct ? 'Save Changes' : 'Add Product')}
                 </button>
               </div>
             </form>

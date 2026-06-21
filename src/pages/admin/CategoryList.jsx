@@ -6,24 +6,37 @@ const CategoryList = () => {
   const { categories, addCategory, deleteCategory, products } = useProduct();
   const [newCat, setNewCat] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     const trimmed = newCat.trim();
     if (!trimmed) { setError('Category name cannot be empty.'); return; }
     if (categories.includes(trimmed)) { setError('This category already exists.'); return; }
-    addCategory(trimmed);
-    setNewCat('');
-    setError('');
+    
+    setIsSubmitting(true);
+    try {
+      await addCategory(trimmed);
+      setNewCat('');
+      setError('');
+    } catch (err) {
+      setError('Failed to add category. Check console.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleDelete = (cat) => {
+  const handleDelete = async (cat) => {
     const count = products.filter(p => p.category === cat).length;
     const msg = count > 0
       ? `"${cat}" has ${count} product(s). Deleting it will not remove those products, but they will show an unlisted category. Continue?`
       : `Are you sure you want to delete the category "${cat}"?`;
     if (window.confirm(msg)) {
-      deleteCategory(cat);
+      try {
+        await deleteCategory(cat);
+      } catch (err) {
+        alert('Failed to delete category. Check console.');
+      }
     }
   };
 
@@ -53,8 +66,8 @@ const CategoryList = () => {
             />
             {error && <p style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '0.4rem' }}>{error}</p>}
           </div>
-          <button type="submit" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.25rem', whiteSpace: 'nowrap' }}>
-            <IconPlus size={18} /> Add Category
+          <button type="submit" className="btn-primary" disabled={isSubmitting} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.25rem', whiteSpace: 'nowrap' }}>
+            <IconPlus size={18} /> {isSubmitting ? 'Adding...' : 'Add Category'}
           </button>
         </form>
       </div>
