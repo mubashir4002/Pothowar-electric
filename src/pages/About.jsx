@@ -12,6 +12,7 @@ import {
   IconBrandWhatsapp,
   IconShoppingBag
 } from '@tabler/icons-react';
+import { Helmet } from 'react-helmet-async';
 import './About.css';
 
 const About = () => {
@@ -22,6 +23,11 @@ const About = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Our History & Trust | Pothowar Electric</title>
+        <meta name="description" content="Learn about Pothowar Electric, Rawalpindi's most trusted family-owned electrical supplier. Over 15 years of experience delivering genuine products and honest pricing." />
+      </Helmet>
+      
       {/* ─── Hero Section ─── */}
       <section className="about-hero">
         <div className="container">

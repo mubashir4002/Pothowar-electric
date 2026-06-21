@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IconBolt, IconSearch, IconShoppingCart, IconX, IconBrandWhatsapp } from '@tabler/icons-react';
+import { IconBolt, IconSearch, IconShoppingCart, IconX, IconBrandWhatsapp, IconMenu2 } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import './Navbar.css';
 
@@ -15,6 +15,7 @@ const Navbar = () => {
     isCartOpen,
     setIsCartOpen,
   } = useCart();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleCheckout = () => {
     const itemsText = cart
@@ -22,7 +23,7 @@ const Navbar = () => {
       .join('\n');
     const message = `Hello Pothowar Electric, I would like to place an order for the following items:\n\n${itemsText}\n\n*Total Amount:* Rs. ${cartTotal.toLocaleString()}\n\nPlease confirm availability and delivery terms.`;
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/923001234567?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/923348700655?text=${encoded}`, '_blank');
   };
 
   return (
@@ -33,21 +34,25 @@ const Navbar = () => {
             <IconBolt size={24} className="logo-icon" />
             <span>Pothowar Electric</span>
           </Link>
-          <div className="nav-links">
-            <Link to="/products" className="nav-link">Products</Link>
-            <Link to="/b2b" className="nav-link">Bulk Order</Link>
-            <Link to="/about" className="nav-link">About</Link>
-            <Link to="/contact" className="nav-link">Contact</Link>
-            <button className="icon-btn hover-scale" aria-label="Search">
-              <IconSearch size={20} />
-            </button>
-            <button
-              className="icon-btn hover-scale cart-btn"
-              aria-label="Cart"
-              onClick={() => setIsCartOpen(true)}
-            >
+          <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            <Link to="/products" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
+            <Link to="/b2b" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Bulk Order</Link>
+            <Link to="/about" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+            <Link to="/contact" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+            <div className="nav-icons-mobile-wrapper">
+              <button className="icon-btn hover-scale cart-btn" aria-label="Cart" onClick={() => { setIsCartOpen(true); setIsMobileMenuOpen(false); }}>
+                <IconShoppingCart size={20} />
+                <span className="cart-badge">{cartCount}</span>
+              </button>
+            </div>
+          </div>
+          <div className="nav-icons-desktop">
+            <button className="icon-btn hover-scale cart-btn" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
               <IconShoppingCart size={20} />
               <span className="cart-badge">{cartCount}</span>
+            </button>
+            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
             </button>
           </div>
         </div>

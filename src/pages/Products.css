@@ -344,3 +344,15 @@
   color: var(--color-brand-primary);
   margin-bottom: 0.5rem;
 }
+
+/* ─── Responsive Layout ─── */
+@media (max-width: 800px) {
+  .products-layout {
+    flex-direction: column;
+  }
+  
+  .filters-sidebar {
+    width: 100%;
+    position: static;
+  }
+}

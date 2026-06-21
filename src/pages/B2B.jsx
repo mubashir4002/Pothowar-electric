@@ -12,9 +12,9 @@ import {
   IconMail,
   IconCircleCheck,
   IconUsers,
-  IconStar,
   IconPackage,
 } from '@tabler/icons-react';
+import { Helmet } from 'react-helmet-async';
 import './B2B.css';
 
 const BENEFITS = [
@@ -133,6 +133,11 @@ const B2B = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Wholesale & Bulk Orders | Pothowar Electric</title>
+        <meta name="description" content="Partner with Pothowar Electric for your construction or retail business. We offer special B2B pricing, dedicated support, and reliable supply lines." />
+      </Helmet>
+
       {/* ─── Hero ─── */}
       <section className="b2b-hero">
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>

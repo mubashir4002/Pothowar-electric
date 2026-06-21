@@ -267,3 +267,81 @@
   align-items: center;
   gap: 1rem;
 }
+
+/* Desktop vs Mobile Nav Icons */
+.nav-icons-desktop {
+  display: none;
+}
+.nav-icons-mobile-wrapper {
+  display: none;
+}
+
+.mobile-menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-brand-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .nav-icons-desktop {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-brand-primary);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease;
+    box-shadow: var(--shadow-md);
+  }
+
+  .nav-links.mobile-open {
+    max-height: 400px;
+    padding: 1.5rem;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .nav-links .icon-btn.cart-btn {
+    display: none; /* Hide desktop cart in mobile menu */
+  }
+  
+  .nav-links .icon-btn[aria-label="Search"] {
+    display: none; /* Hide search in mobile menu for now */
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-icons-desktop {
+    display: flex;
+    align-items: center;
+  }
+  .mobile-menu-btn {
+    display: none;
+  }
+  .nav-links .icon-btn[aria-label="Search"] {
+    display: flex;
+  }
+}
+

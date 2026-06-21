@@ -8,6 +8,7 @@ import {
   IconSearch,
   IconBrandWhatsapp,
 } from '@tabler/icons-react';
+import { Helmet } from 'react-helmet-async';
 import './Products.css';
 
 import { useProduct } from '../context/ProductContext';
@@ -65,6 +66,10 @@ const Products = () => {
 
   return (
     <div className="products-page">
+      <Helmet>
+        <title>Catalog & Pricing | Pothowar Electric</title>
+        <meta name="description" content="Browse our wide selection of electrical items including LED lights, fans, solar panels, and DB boxes. Get the best wholesale prices in Rawalpindi." />
+      </Helmet>
       <div className="container">
         <h1 className="section-title">Product Catalog</h1>
         

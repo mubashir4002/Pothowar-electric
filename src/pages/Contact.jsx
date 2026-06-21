@@ -7,6 +7,7 @@ import {
   IconBrandWhatsapp,
   IconSend
 } from '@tabler/icons-react';
+import { Helmet } from 'react-helmet-async';
 import './Contact.css';
 
 const Contact = () => {
@@ -42,6 +43,10 @@ const Contact = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Contact Us & Locations | Pothowar Electric</title>
+        <meta name="description" content="Get in touch with Pothowar Electric. Visit our shops in Rawalpindi at Commetti Chowk or contact us via WhatsApp for instant pricing and stock inquiries." />
+      </Helmet>
 
       {/* ─── Hero Section ─── */}
       <section className="contact-hero">

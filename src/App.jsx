@@ -17,10 +17,12 @@ import CategoryList from './pages/admin/CategoryList';
 
 import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
+import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
   return (
-    <ProductProvider>
+    <HelmetProvider>
+      <ProductProvider>
       <CartProvider>
       <Routes>
         {/* --- ADMIN ROUTES --- */}
@@ -52,6 +54,7 @@ function App() {
       </Routes>
       </CartProvider>
     </ProductProvider>
+    </HelmetProvider>
   );
 }
 
