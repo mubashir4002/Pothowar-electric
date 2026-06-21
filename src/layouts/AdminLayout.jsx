@@ -8,15 +8,16 @@ import {
   IconBolt,
   IconTag
 } from '@tabler/icons-react';
+import { useAuth } from '../context/AuthContext';
 import './AdminLayout.css';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { signOut, session } = useAuth();
 
-  const handleLogout = () => {
-    // Basic mock logout logic
-    localStorage.removeItem('adminAuth');
+  const handleLogout = async () => {
+    await signOut();
     navigate('/admin/login');
   };
 
@@ -81,7 +82,7 @@ const AdminLayout = () => {
           <div className="admin-topbar-right">
             <div className="admin-user-profile">
               <div className="admin-avatar">AD</div>
-              <span>Admin User</span>
+              <span>{session?.user?.email || 'Admin'}</span>
             </div>
           </div>
         </header>

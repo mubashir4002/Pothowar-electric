@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconBolt } from '@tabler/icons-react';
+import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === 'Pothowar' && password === 'poto#2026') {
-      localStorage.setItem('adminAuth', 'true');
+    setError('');
+    setIsLoading(true);
+    try {
+      await signIn(email, password);
       navigate('/admin/dashboard');
-    } else {
-      setError('Invalid username or password');
+    } catch (err) {
+      setError('Invalid email or password. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -32,15 +39,13 @@ const Login = () => {
 
         <form className="login-form" onSubmit={handleLogin}>
           <div className="form-group">
-            <label className="form-label">Username</label>
+            <label className="form-label">Email Address</label>
             <input
-              type="text"
+              type="email"
               className="form-control"
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                setError('');
-              }}
+              placeholder="admin@pothowarelectric.pk"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); setError(''); }}
               required
             />
           </div>
@@ -51,26 +56,21 @@ const Login = () => {
               type="password"
               className="form-control"
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setError('');
-              }}
+              onChange={(e) => { setPassword(e.target.value); setError(''); }}
               required
             />
           </div>
 
           {error && <div className="login-error">{error}</div>}
 
-          <button type="submit" className="login-btn">Sign In</button>
+          <button type="submit" className="login-btn" disabled={isLoading}>
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </button>
         </form>
-
-        {/* <div className="login-hint">
-          <strong>Demo Credentials:</strong><br />
-          Username: <code>admin</code> | Password: <code>123</code>
-        </div> */}
       </div>
     </div>
   );
 };
 
 export default Login;
+
