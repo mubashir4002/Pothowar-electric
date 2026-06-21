@@ -11,8 +11,7 @@ import {
 import './Products.css';
 
 import { useProduct } from '../context/ProductContext';
-
-const CATEGORIES = ['All', 'LED Lights', 'Fans', 'Solar', 'DB Boxes'];
+const CATEGORIES_FILTER = ['All'];
 
 const getCategoryIcon = (category) => {
   switch (category) {
@@ -31,7 +30,8 @@ const getCategoryIcon = (category) => {
 
 const Products = () => {
   const { addToCart } = useCart();
-  const { products: PRODUCT_DATA } = useProduct();
+  const { products: PRODUCT_DATA, categories } = useProduct();
+  const CATEGORIES = ['All', ...categories];
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [maxPrice, setMaxPrice] = useState(135000);
@@ -147,7 +147,10 @@ const Products = () => {
                   <div key={product.id} className="catalog-card">
                     <div className="card-img-wrapper">
                       <span className="card-badge-cat">{product.category}</span>
-                      {getCategoryIcon(product.category)}
+                      {product.image
+                        ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                        : getCategoryIcon(product.category)
+                      }
                     </div>
                     <div className="card-info">
                       <span className="card-brand">{product.brand}</span>

@@ -13,6 +13,7 @@ import AdminLayout from './layouts/AdminLayout';
 import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProductList from './pages/admin/ProductList';
+import CategoryList from './pages/admin/CategoryList';
 
 import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
@@ -28,6 +29,7 @@ function App() {
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="products" element={<ProductList />} />
+          <Route path="categories" element={<CategoryList />} />
           <Route path="settings" element={<div style={{padding: '2rem'}}>Settings coming soon...</div>} />
         </Route>
 

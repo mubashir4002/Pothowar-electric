@@ -5,7 +5,8 @@ import {
   IconBox, 
   IconSettings, 
   IconLogout,
-  IconBolt
+  IconBolt,
+  IconTag
 } from '@tabler/icons-react';
 import './AdminLayout.css';
 
@@ -22,6 +23,7 @@ const AdminLayout = () => {
   // Determine title based on current path
   const getPageTitle = () => {
     if (location.pathname.includes('/products')) return 'Product Management';
+    if (location.pathname.includes('/categories')) return 'Category Management';
     if (location.pathname.includes('/settings')) return 'Settings';
     return 'Dashboard';
   };
@@ -47,6 +49,12 @@ const AdminLayout = () => {
             className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
           >
             <IconBox size={20} /> Products
+          </NavLink>
+          <NavLink 
+            to="/admin/categories" 
+            className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <IconTag size={20} /> Categories
           </NavLink>
           <NavLink 
             to="/admin/settings" 
