@@ -140,7 +140,7 @@ const B2B = () => {
         }]);
 
       if (error) throw error;
-      
+
       setSubmitted(true);
       handleWhatsApp();
     } catch (err) {
@@ -251,21 +251,21 @@ const B2B = () => {
                   <div className="form-contact-icon"><IconBrandWhatsapp size={20} /></div>
                   <div className="form-contact-text">
                     <strong>WhatsApp</strong>
-                    +92 300 1234567
+                    +92 3348700655
                   </div>
                 </div>
                 <div className="form-contact-item">
                   <div className="form-contact-icon"><IconPhone size={20} /></div>
                   <div className="form-contact-text">
                     <strong>Phone</strong>
-                    051-1234567
+                    051-5530360
                   </div>
                 </div>
                 <div className="form-contact-item">
                   <div className="form-contact-icon"><IconMapPin size={20} /></div>
                   <div className="form-contact-text">
                     <strong>Location</strong>
-                    Saddar Road, Rawalpindi, Pakistan
+                    Iqbal Road Cometti Chowk Near Shirin Bakery, Rawalpindi, Pakistan
                   </div>
                 </div>
                 <div className="form-contact-item">

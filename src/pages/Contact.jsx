@@ -107,15 +107,7 @@ const Contact = () => {
                   <div className="info-icon"><IconMapPin size={24} /></div>
                   <div className="info-content">
                     <h4>Pothowar Traders</h4>
-                    <p>Iqbal Road Commetti Chowk,Near Shirin Bakery, Rawalpindi</p>
-                  </div>
-                </div>
-
-                <div className="info-item">
-                  <div className="info-icon"><IconMapPin size={24} /></div>
-                  <div className="info-content">
-                    <h4>Pothowar Traders</h4>
-                    <p>Shop #45, Main Adamjee Road, Saddar, Rawalpindi</p>
+                    <p>Iqbal Road Cometti Chowk Near Shirin Bakery, Rawalpindi, Pakistan</p>
                   </div>
                 </div>
               </div>
@@ -152,7 +144,7 @@ const Contact = () => {
                       id="phone"
                       name="phone"
                       className="form-control"
-                      placeholder="0300-1234567"
+                      placeholder="0334-8700655"
                       value={form.phone}
                       onChange={handleChange}
                     />
