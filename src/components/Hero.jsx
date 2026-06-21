@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Hero.css';
 
 const Hero = () => {
@@ -8,8 +9,8 @@ const Hero = () => {
         <h1 className="hero-title">Rawalpindi ka trusted electrical supplier</h1>
         <p className="hero-sub">LED lights, fans, solar products, DB boxes aur bahut kuch</p>
         <div className="hero-btns">
-          <button className="btn-primary hover-scale">Shop Now</button>
-          <button className="btn-outline hover-scale" style={{ borderColor: 'white', color: 'white' }}>Bulk Inquiry</button>
+          <Link to="/products" className="btn-primary hover-scale">Shop Now</Link>
+          <Link to="/b2b" className="btn-outline hover-scale" style={{ borderColor: 'white', color: 'white' }}>Bulk Inquiry</Link>
         </div>
       </div>
     </section>
