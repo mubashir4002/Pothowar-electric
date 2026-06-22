@@ -1,0 +1,200 @@
+/* ── Settings Page ───────────────────────────────────────────────── */
+
+.settings-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #E5E7EB;
+  margin-bottom: 2rem;
+}
+
+.settings-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+  border-radius: 6px 6px 0 0;
+}
+
+.settings-tab-btn:hover {
+  color: var(--color-brand-primary);
+  background: var(--color-brand-tertiary);
+}
+
+.settings-tab-btn.active {
+  color: var(--color-brand-primary);
+  border-bottom-color: var(--color-brand-primary);
+  font-weight: 600;
+}
+
+/* ── Section Card ────────────────────────────────────────────────── */
+.settings-card {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.settings-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-brand-primary);
+  margin-bottom: 0.4rem;
+}
+
+.settings-card-subtitle {
+  font-size: 0.85rem;
+  color: var(--color-text-tertiary);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Form Grid ───────────────────────────────────────────────────── */
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.settings-form-grid .full-width {
+  grid-column: 1 / -1;
+}
+
+.settings-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.settings-form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.settings-form-group input,
+.settings-form-group textarea {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.settings-form-group input:focus,
+.settings-form-group textarea:focus {
+  border-color: var(--color-brand-secondary);
+  box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.08);
+}
+
+.settings-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.settings-save-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.settings-success-msg {
+  color: var(--color-success);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.settings-error-msg {
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.75rem;
+}
+
+/* ── Inquiries Table ─────────────────────────────────────────────── */
+.inquiries-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+}
+
+.inquiries-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.inquiries-table thead tr {
+  background: #F9FAFB;
+}
+
+.inquiries-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.inquiries-table td {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid #F3F4F6;
+  color: var(--color-text-primary);
+  vertical-align: top;
+}
+
+.inquiries-table tbody tr:hover {
+  background: #F9FAFB;
+}
+
+.inq-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-brand-tertiary);
+  color: var(--color-brand-primary);
+  white-space: nowrap;
+}
+
+.inq-date {
+  font-size: 0.78rem;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+
+.loading-text {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-tertiary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IconShoppingCart, IconUsers, IconPackage, IconCash } from '@tabler/icons-react';
 import { useProduct } from '../../context/ProductContext';
+import { supabase } from '../../lib/supabase';
 
 const Dashboard = () => {
   const { products } = useProduct();
+  const [inquiryCount, setInquiryCount] = useState(0);
+
+  useEffect(() => {
+    supabase
+      .from('inquiries')
+      .select('id', { count: 'exact', head: true })
+      .then(({ count }) => setInquiryCount(count || 0));
+  }, []);
 
   return (
     <div>
@@ -43,8 +52,8 @@ const Dashboard = () => {
             </div>
             <h3 style={{ fontSize: '1rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>B2B Inquiries</h3>
           </div>
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>0</div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--color-text-tertiary)', marginTop: '0.5rem' }}>*Inquiries go to WhatsApp</p>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{inquiryCount}</div>
+          <p style={{ fontSize: '0.8rem', color: 'var(--color-text-tertiary)', marginTop: '0.5rem' }}>View all in Settings → Inquiries</p>
         </div>
 
       </div>

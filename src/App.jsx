@@ -14,6 +14,7 @@ import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProductList from './pages/admin/ProductList';
 import CategoryList from './pages/admin/CategoryList';
+import Settings from './pages/admin/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import { CartProvider } from './context/CartContext';
@@ -39,7 +40,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="products" element={<ProductList />} />
                 <Route path="categories" element={<CategoryList />} />
-                <Route path="settings" element={<div style={{padding: '2rem'}}>Settings coming soon...</div>} />
+                <Route path="settings" element={<Settings />} />
               </Route>
 
               {/* --- PUBLIC ROUTES --- */}
