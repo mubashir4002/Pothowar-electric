@@ -145,6 +145,8 @@ const StoreInfoTab = () => {
   });
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -163,15 +165,24 @@ const StoreInfoTab = () => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
     setSaved(false);
+    setErrorMsg('');
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
+    setIsSaving(true);
+    setErrorMsg('');
     const rows = Object.entries(form).map(([key, value]) => ({ key, value }));
     const { error } = await supabase
       .from('site_settings')
       .upsert(rows, { onConflict: 'key' });
-    if (!error) setSaved(true);
+    if (!error) {
+      setSaved(true);
+    } else {
+      console.error(error);
+      setErrorMsg(error.message || 'Failed to save. Did you run the SQL to create the site_settings table?');
+    }
+    setIsSaving(false);
   };
 
   if (loading) return <div className="loading-text"><IconLoader className="spin" size={28} /></div>;
@@ -206,8 +217,9 @@ const StoreInfoTab = () => {
         </div>
 
         <div className="settings-save-row">
-          <button type="submit" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <IconDeviceFloppy size={18} /> Save Changes
+          <button type="submit" className="btn-primary" disabled={isSaving} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {isSaving ? <IconLoader className="spin" size={18} /> : <IconDeviceFloppy size={18} />}
+            {isSaving ? 'Saving...' : 'Save Changes'}
           </button>
           {saved && (
             <span className="settings-success-msg">
@@ -215,6 +227,11 @@ const StoreInfoTab = () => {
             </span>
           )}
         </div>
+        {errorMsg && (
+          <div className="settings-error-msg">
+            {errorMsg}
+          </div>
+        )}
         <p style={{ fontSize: '0.78rem', color: 'var(--color-text-tertiary)', marginTop: '1rem' }}>
           Note: After saving, redeploy your site for changes to show publicly.
         </p>
