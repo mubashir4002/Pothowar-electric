@@ -16,6 +16,7 @@ import {
 } from '@tabler/icons-react';
 import { Helmet } from 'react-helmet-async';
 import { supabase } from '../lib/supabase';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import './B2B.css';
 
 const BENEFITS = [
@@ -61,6 +62,7 @@ const PROCESS_STEPS = [
 const CATEGORIES = ['LED Lights', 'Fans', 'Solar Panels', 'DB Boxes', 'Wiring & Cable', 'Switches & Sockets', 'Other'];
 
 const B2B = () => {
+  const { settings } = useStoreSettings();
   const [form, setForm] = useState({
     name: '',
     company: '',
@@ -101,7 +103,7 @@ const B2B = () => {
   const handleWhatsApp = () => {
     const cats = selectedCategories.length > 0 ? selectedCategories.join(', ') : 'Not specified';
     const message =
-      `*Bulk/B2B Inquiry — Pothowar Electric*\n\n` +
+      `*Bulk/B2B Inquiry — ${settings.storeName}*\n\n` +
       `*Name:* ${form.name}\n` +
       `*Company:* ${form.company || 'N/A'}\n` +
       `*Phone:* ${form.phone}\n` +
@@ -112,7 +114,8 @@ const B2B = () => {
       `*Estimated Budget:* ${form.budget || 'N/A'}\n` +
       `*Additional Details:* ${form.message || 'None'}\n\n` +
       `Please provide a bulk quotation at your earliest.`;
-    window.open(`https://wa.me/923348700655?text=${encodeURIComponent(message)}`, '_blank');
+    const cleanWhatsapp = settings.whatsapp.replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   const handleSubmit = async (e) => {
@@ -161,8 +164,8 @@ const B2B = () => {
   return (
     <>
       <Helmet>
-        <title>Wholesale & Bulk Orders | Pothowar Electric</title>
-        <meta name="description" content="Partner with Pothowar Electric for your construction or retail business. We offer special B2B pricing, dedicated support, and reliable supply lines." />
+        <title>Wholesale & Bulk Orders | {settings.storeName}</title>
+        <meta name="description" content={`Partner with ${settings.storeName} for your construction or retail business. We offer special B2B pricing, dedicated support, and reliable supply lines.`} />
       </Helmet>
 
       {/* ─── Hero ─── */}
@@ -251,28 +254,28 @@ const B2B = () => {
                   <div className="form-contact-icon"><IconBrandWhatsapp size={20} /></div>
                   <div className="form-contact-text">
                     <strong>WhatsApp</strong>
-                    +92 3348700655
+                    {settings.whatsapp}
                   </div>
                 </div>
                 <div className="form-contact-item">
                   <div className="form-contact-icon"><IconPhone size={20} /></div>
                   <div className="form-contact-text">
                     <strong>Phone</strong>
-                    051-5530360
+                    {settings.phone}
                   </div>
                 </div>
                 <div className="form-contact-item">
                   <div className="form-contact-icon"><IconMapPin size={20} /></div>
                   <div className="form-contact-text">
                     <strong>Location</strong>
-                    Iqbal Road Cometti Chowk Near Shirin Bakery, Rawalpindi, Pakistan
+                    {settings.address}
                   </div>
                 </div>
                 <div className="form-contact-item">
                   <div className="form-contact-icon"><IconMail size={20} /></div>
                   <div className="form-contact-text">
                     <strong>Email</strong>
-                    info@pothowarelectric.pk
+                    {settings.email}
                   </div>
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './B2BSection.css';
 
 const B2BSection = () => {
@@ -7,9 +8,9 @@ const B2BSection = () => {
       <div className="container b2b-container">
         <h2 className="b2b-title">Contractor & Wholesale Inquiries</h2>
         <p className="b2b-sub">Bulk orders pe special pricing milti hai — electricians, builders, contractors ke liye</p>
-        <button className="btn-primary hover-scale b2b-btn">
+        <Link to="/b2b" className="btn-primary hover-scale b2b-btn">
           Send Bulk Inquiry
-        </button>
+        </Link>
       </div>
     </section>
   );

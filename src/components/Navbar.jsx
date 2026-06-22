@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { IconBolt, IconSearch, IconShoppingCart, IconX, IconBrandWhatsapp, IconMenu2 } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -15,15 +16,17 @@ const Navbar = () => {
     isCartOpen,
     setIsCartOpen,
   } = useCart();
+  const { settings } = useStoreSettings();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleCheckout = () => {
     const itemsText = cart
       .map((item) => `- ${item.name} (Qty: ${item.quantity}) @ Rs. ${item.price.toLocaleString()}`)
       .join('\n');
-    const message = `Hello Pothowar Electric, I would like to place an order for the following items:\n\n${itemsText}\n\n*Total Amount:* Rs. ${cartTotal.toLocaleString()}\n\nPlease confirm availability and delivery terms.`;
+    const message = `Hello ${settings.storeName}, I would like to place an order for the following items:\n\n${itemsText}\n\n*Total Amount:* Rs. ${cartTotal.toLocaleString()}\n\nPlease confirm availability and delivery terms.`;
+    const cleanWhatsapp = settings.whatsapp.replace(/[^0-9]/g, '');
     const encoded = encodeURIComponent(message);
-    window.open(`https://wa.me/923348700655?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/${cleanWhatsapp}?text=${encoded}`, '_blank');
   };
 
   return (
@@ -32,7 +35,7 @@ const Navbar = () => {
         <div className="container nav-container">
           <Link to="/" className="nav-logo hover-scale">
             <IconBolt size={24} className="logo-icon" />
-            <span>Pothowar Electric</span>
+            <span>{settings.storeName}</span>
           </Link>
           <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
             <Link to="/products" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>

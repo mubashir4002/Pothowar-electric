@@ -8,9 +8,11 @@ import {
   IconSend
 } from '@tabler/icons-react';
 import { Helmet } from 'react-helmet-async';
+import { useStoreSettings } from '../context/StoreSettingsContext';
 import './Contact.css';
 
 const Contact = () => {
+  const { settings } = useStoreSettings();
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -38,14 +40,15 @@ const Contact = () => {
       `*Subject:* ${form.subject || 'General Inquiry'}\n` +
       `*Message:* ${form.message}`;
 
-    window.open(`https://wa.me/923348700655?text=${encodeURIComponent(waMessage)}`, '_blank');
+    const cleanWhatsapp = settings.whatsapp.replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(waMessage)}`, '_blank');
   };
 
   return (
     <>
       <Helmet>
-        <title>Contact Us & Locations | Pothowar Electric</title>
-        <meta name="description" content="Get in touch with Pothowar Electric. Visit our shops in Rawalpindi at Commetti Chowk or contact us via WhatsApp for instant pricing and stock inquiries." />
+        <title>Contact Us & Locations | {settings.storeName}</title>
+        <meta name="description" content={`Get in touch with ${settings.storeName}. Visit our shops in Rawalpindi at Commetti Chowk or contact us via WhatsApp for instant pricing and stock inquiries.`} />
       </Helmet>
 
       {/* ─── Hero Section ─── */}
@@ -73,8 +76,8 @@ const Contact = () => {
                   <div className="info-icon"><IconPhone size={24} /></div>
                   <div className="info-content">
                     <h4>Phone & WhatsApp</h4>
-                    <p>051-5530360 (Landline)</p>
-                    <p>+92 3348700655 (WhatsApp)</p>
+                    <p>{settings.phone} (Landline)</p>
+                    <p>{settings.whatsapp} (WhatsApp)</p>
                   </div>
                 </div>
 
@@ -82,8 +85,7 @@ const Contact = () => {
                   <div className="info-icon"><IconMail size={24} /></div>
                   <div className="info-content">
                     <h4>Email Address</h4>
-                    <p><a href="mailto:info@pothowarelectric.pk">info@pothowarelectric.pk</a></p>
-                    <p><a href="mailto:sales@pothowarelectric.pk">sales@pothowarelectric.pk</a></p>
+                    <p><a href={`mailto:${settings.email}`}>{settings.email}</a></p>
                   </div>
                 </div>
 
@@ -106,8 +108,8 @@ const Contact = () => {
                 <div className="info-item">
                   <div className="info-icon"><IconMapPin size={24} /></div>
                   <div className="info-content">
-                    <h4>Pothowar Traders</h4>
-                    <p>Iqbal Road Cometti Chowk Near Shirin Bakery, Rawalpindi, Pakistan</p>
+                    <h4>{settings.storeName}</h4>
+                    <p>{settings.address}</p>
                   </div>
                 </div>
               </div>
@@ -144,7 +146,7 @@ const Contact = () => {
                       id="phone"
                       name="phone"
                       className="form-control"
-                      placeholder="0334-8700655"
+                      placeholder="e.g. 0300-1234567"
                       value={form.phone}
                       onChange={handleChange}
                     />
