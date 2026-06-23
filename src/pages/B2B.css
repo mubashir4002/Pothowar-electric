@@ -219,8 +219,14 @@
 
 /* Left Info Panel */
 .form-info-panel {
-  position: sticky;
-  top: 90px;
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  .form-info-panel {
+    position: sticky;
+    top: 90px;
+  }
 }
 
 .form-info-label {
