@@ -7,6 +7,7 @@ import Products from './pages/Products';
 import B2B from './pages/B2B';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import ScrollToTop from './components/ScrollToTop';
 
 // Admin Components
 import AdminLayout from './layouts/AdminLayout';
@@ -30,6 +31,7 @@ function App() {
         <StoreSettingsProvider>
           <ProductProvider>
             <CartProvider>
+              <ScrollToTop />
               <Routes>
                 {/* --- ADMIN ROUTES --- */}
                 <Route path="/admin/login" element={<Login />} />
