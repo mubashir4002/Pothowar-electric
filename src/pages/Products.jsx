@@ -195,7 +195,7 @@ const Products = () => {
                             className="btn-success card-btn-ask"
                             onClick={() => handleWhatsAppAsk(product)}
                           >
-                            <IconBrandWhatsapp size={16} /> Ask
+                            <IconBrandWhatsapp size={16} /> Request Info
                           </button>
                         </div>
                       </div>

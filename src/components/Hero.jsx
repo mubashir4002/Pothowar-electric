@@ -6,11 +6,11 @@ const Hero = () => {
   return (
     <section className="hero">
       <div className="container hero-container">
-        <h1 className="hero-title">Rawalpindi ka trusted electrical supplier</h1>
-        <p className="hero-sub">LED lights, fans, solar products, DB boxes aur bahut kuch</p>
+        <h1 className="hero-title">Pothowar Electric: The Region's Premier Electrical Distributor</h1>
+        <p className="hero-sub">Empowering infrastructure with authentic, industry-grade electrical solutions. Your trusted supply partner in Rawalpindi and Islamabad since 2014.</p>
         <div className="hero-btns">
-          <Link to="/products" className="btn-primary hover-scale">Shop Now</Link>
-          <Link to="/b2b" className="btn-outline hover-scale" style={{ borderColor: 'white', color: 'white' }}>Bulk Inquiry</Link>
+          <Link to="/products" className="btn-primary hover-scale">View Full Catalog</Link>
+          <Link to="/b2b" className="btn-outline hover-scale" style={{ borderColor: 'white', color: 'white' }}>Request Wholesale Quote</Link>
         </div>
       </div>
     </section>

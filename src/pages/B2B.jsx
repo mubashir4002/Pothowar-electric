@@ -244,10 +244,9 @@ const B2B = () => {
               <span className="form-info-label">
                 <IconPackage size={14} /> Get a Quote
               </span>
-              <h2 className="form-info-heading">Send Us Your Bulk Inquiry</h2>
+              <h2 className="form-info-heading">Request a Wholesale Quote</h2>
               <p className="form-info-para">
-                Fill in the form and we'll prepare a custom quotation for your project within a few hours.
-                You can also reach us directly on WhatsApp or phone.
+                Please provide your project details below. We'll review your requirements and send you a custom wholesale quotation shortly.
               </p>
               <div className="form-contact-list">
                 <div className="form-contact-item">
@@ -293,7 +292,7 @@ const B2B = () => {
 
             {/* Inquiry Form */}
             <div className="inquiry-form-card">
-              <h3 className="inquiry-form-title">Bulk Inquiry Form</h3>
+              <h3 className="inquiry-form-title">Wholesale Quotation Form</h3>
               <p className="inquiry-form-sub">Fields marked with <span style={{ color: '#ef4444' }}>*</span> are required.</p>
 
               {submitted && (

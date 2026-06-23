@@ -56,7 +56,7 @@ const FeaturedProducts = () => {
                     {addedItem === prod.id ? 'Added ✓' : 'Buy'}
                   </button>
                   <button className="btn-success flex-1" onClick={() => handleWhatsAppAsk(prod)}>
-                    <IconBrandWhatsapp size={16} /> Ask
+                    <IconBrandWhatsapp size={16} /> Request Info
                   </button>
                 </div>
               </div>
