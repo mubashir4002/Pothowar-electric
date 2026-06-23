@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconBulb, IconWind, IconSolarPanel, IconBrandWhatsapp } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import './FeaturedProducts.css';
@@ -9,6 +9,15 @@ const FeaturedProducts = () => {
   const { addToCart } = useCart();
   const { products: allProducts } = useProduct();
   const products = allProducts.slice(0, 3); // Take first 3 for featured
+  const [addedItem, setAddedItem] = useState(null);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setAddedItem(product.id);
+    setTimeout(() => {
+      setAddedItem(null);
+    }, 1500);
+  };
 
   const getIconForCategory = (cat) => {
     switch (cat) {
@@ -39,7 +48,13 @@ const FeaturedProducts = () => {
                 <h3 className="prod-name">{prod.name}</h3>
                 <div className="prod-price">Rs. {prod.price.toLocaleString()}</div>
                 <div className="prod-actions">
-                  <button className="btn-primary flex-1" onClick={() => addToCart(prod)}>Buy</button>
+                  <button 
+                    className={`btn-primary flex-1 ${addedItem === prod.id ? 'added' : ''}`} 
+                    onClick={() => handleAddToCart(prod)}
+                    style={addedItem === prod.id ? { backgroundColor: '#10b981', borderColor: '#10b981' } : {}}
+                  >
+                    {addedItem === prod.id ? 'Added ✓' : 'Buy'}
+                  </button>
                   <button className="btn-success flex-1" onClick={() => handleWhatsAppAsk(prod)}>
                     <IconBrandWhatsapp size={16} /> Ask
                   </button>

@@ -37,6 +37,15 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [maxPrice, setMaxPrice] = useState(135000);
+  const [addedItem, setAddedItem] = useState(null);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    setAddedItem(product.id);
+    setTimeout(() => {
+      setAddedItem(null);
+    }, 1500);
+  };
 
   const getCategoryCount = (cat) => {
     if (cat === 'All') return PRODUCT_DATA.length;
@@ -176,10 +185,11 @@ const Products = () => {
                         </div>
                         <div className="card-buttons">
                           <button
-                            className="btn-primary card-btn-buy"
-                            onClick={() => addToCart(product)}
+                            className={`btn-primary card-btn-buy ${addedItem === product.id ? 'added' : ''}`}
+                            onClick={() => handleAddToCart(product)}
+                            style={addedItem === product.id ? { backgroundColor: '#10b981', borderColor: '#10b981' } : {}}
                           >
-                            Buy
+                            {addedItem === product.id ? 'Added ✓' : 'Buy'}
                           </button>
                           <button
                             className="btn-success card-btn-ask"
