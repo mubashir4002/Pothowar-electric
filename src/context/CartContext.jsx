@@ -21,6 +21,7 @@ export const CartProvider = ({ children }) => {
       }
       return [...prevCart, { ...product, quantity: 1 }];
     });
+    setIsCartOpen(true);
   };
 
   const removeFromCart = (productId) => {
