@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import {
   IconBulb,
@@ -34,10 +35,20 @@ const Products = () => {
   const { addToCart } = useCart();
   const { products: PRODUCT_DATA, categories, loading } = useProduct();
   const CATEGORIES = ['All', ...categories];
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get('search') || '';
+  const initialCategory = searchParams.get('category') || 'All';
+
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [maxPrice, setMaxPrice] = useState(135000);
   const [addedItem, setAddedItem] = useState(null);
+
+  // Sync state if URL changes (e.g. from navbar)
+  useEffect(() => {
+    setSearchQuery(searchParams.get('search') || '');
+    setSelectedCategory(searchParams.get('category') || 'All');
+  }, [searchParams]);
 
   const handleAddToCart = (product) => {
     addToCart(product);

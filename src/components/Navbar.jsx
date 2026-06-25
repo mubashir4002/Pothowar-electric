@@ -1,8 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { IconBolt, IconSearch, IconShoppingCart, IconX, IconBrandWhatsapp, IconMenu2 } from '@tabler/icons-react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  IconBolt, 
+  IconSearch, 
+  IconShoppingCart, 
+  IconX, 
+  IconBrandWhatsapp, 
+  IconMenu2,
+  IconPhone,
+  IconMail,
+  IconChevronDown,
+  IconUser
+} from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
+import { useProduct } from '../context/ProductContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -16,8 +28,22 @@ const Navbar = () => {
     isCartOpen,
     setIsCartOpen,
   } = useCart();
+  
   const { settings } = useStoreSettings();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const { categories } = useProduct();
+  const navigate = useNavigate();
+  
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setIsMobileMenuOpen(false);
+    }
+  };
 
   const handleCheckout = () => {
     const itemsText = cart
@@ -31,37 +57,149 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar">
-        <div className="container nav-container">
-          <Link to="/" className="nav-logo hover-scale">
-            <IconBolt size={24} className="logo-icon" />
-            <span>{settings.storeName}</span>
-          </Link>
-          <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
-            <Link to="/products" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Products</Link>
-            <Link to="/b2b" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Bulk Order</Link>
-            <Link to="/about" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
-            <Link to="/contact" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
-            <div className="nav-icons-mobile-wrapper">
-              <button className="icon-btn hover-scale cart-btn" aria-label="Cart" onClick={() => { setIsCartOpen(true); setIsMobileMenuOpen(false); }}>
-                <IconShoppingCart size={20} />
-                <span className="cart-badge">{cartCount}</span>
-              </button>
+      {/* --- Top Bar --- */}
+      <div className="top-bar">
+        <div className="container top-bar-container">
+          <div className="top-bar-contact">
+            <div className="top-bar-item">
+              <IconPhone size={14} />
+              <a href={`tel:${settings.phone}`}>{settings.phone}</a>
+            </div>
+            <div className="top-bar-item">
+              <IconMail size={14} />
+              <a href={`mailto:${settings.email}`}>{settings.email}</a>
             </div>
           </div>
-          <div className="nav-icons-desktop">
+          <div className="top-bar-links">
+            <Link to="/about" className="top-bar-item">About Us</Link>
+            <Link to="/contact" className="top-bar-item">Contact</Link>
+            <Link to="/admin" className="top-bar-item" style={{ color: 'var(--color-brand-accent)' }}>
+              <IconUser size={14} /> Admin Portal
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* --- Main Navbar --- */}
+      <nav className="navbar">
+        <div className="container nav-container">
+          
+          {/* Logo */}
+          <Link to="/" className="nav-logo hover-scale">
+            <IconBolt size={26} className="logo-icon" />
+            <span>{settings.storeName}</span>
+          </Link>
+
+          {/* Desktop Search Bar */}
+          <div className="nav-search-container">
+            <form className="nav-search-form" onSubmit={handleSearchSubmit}>
+              <input 
+                type="text" 
+                className="nav-search-input" 
+                placeholder="Search products by name, brand..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button type="submit" className="nav-search-btn" aria-label="Search">
+                <IconSearch size={18} />
+              </button>
+            </form>
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="nav-actions">
+            <div className="nav-links-desktop">
+              
+              {/* Category Dropdown */}
+              <div className="nav-dropdown-wrapper">
+                <Link to="/products" className="nav-link">
+                  Products <IconChevronDown size={16} style={{ marginTop: '2px' }} />
+                </Link>
+                <div className="nav-dropdown-menu">
+                  <Link to="/products" className="nav-dropdown-item">All Products</Link>
+                  {categories.map(cat => (
+                    <Link key={cat} to={`/products?category=${encodeURIComponent(cat)}`} className="nav-dropdown-item">
+                      {cat}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              
+              {/* CTA Button */}
+              <Link to="/b2b" className="nav-cta-btn hover-scale">
+                Request Bulk Quote
+              </Link>
+            </div>
+
+            {/* Cart & Mobile Toggle */}
             <button className="icon-btn hover-scale cart-btn" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-              <IconShoppingCart size={20} />
+              <IconShoppingCart size={24} />
               <span className="cart-badge">{cartCount}</span>
             </button>
-            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
+            <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
+              <IconMenu2 size={28} />
             </button>
           </div>
+
         </div>
       </nav>
 
-      {/* Cart Drawer */}
+      {/* --- Mobile Menu Panel --- */}
+      <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
+      <div className={`mobile-nav-panel ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-nav-header">
+          <Link to="/" className="nav-logo" onClick={() => setIsMobileMenuOpen(false)}>
+            <IconBolt size={24} className="logo-icon" />
+            <span style={{ color: 'var(--color-brand-primary)' }}>{settings.storeName}</span>
+          </Link>
+          <button className="icon-btn" onClick={() => setIsMobileMenuOpen(false)}>
+            <IconX size={28} />
+          </button>
+        </div>
+        
+        <div className="mobile-nav-content">
+          <form className="mobile-search" onSubmit={handleSearchSubmit}>
+            <input 
+              type="text" 
+              className="nav-search-input" 
+              placeholder="Search products..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" className="nav-search-btn" aria-label="Search">
+              <IconSearch size={18} />
+            </button>
+          </form>
+
+          <div className="mobile-nav-links">
+            <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+            <Link to="/products" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>All Products</Link>
+            {categories.map(cat => (
+              <Link 
+                key={cat} 
+                to={`/products?category=${encodeURIComponent(cat)}`} 
+                className="mobile-nav-link" 
+                style={{ fontWeight: 400, paddingLeft: '1rem', fontSize: '0.95rem' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {cat}
+              </Link>
+            ))}
+            <Link to="/about" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+            <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+            
+            <Link to="/b2b" className="mobile-nav-cta" onClick={() => setIsMobileMenuOpen(false)}>
+              Request Bulk Quote
+            </Link>
+            
+            <Link to="/admin" className="mobile-nav-link" style={{ marginTop: '1rem', color: 'var(--color-brand-secondary)' }} onClick={() => setIsMobileMenuOpen(false)}>
+              Admin Portal
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* --- Cart Drawer --- */}
       <div className={`cart-overlay ${isCartOpen ? 'open' : ''}`} onClick={() => setIsCartOpen(false)}>
         <div className="cart-drawer" onClick={(e) => e.stopPropagation()}>
           <div className="drawer-header">
