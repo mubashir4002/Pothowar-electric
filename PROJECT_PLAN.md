@@ -54,3 +54,10 @@ Below is the clear, step-by-step plan for the entire project, including what has
 - [ ] Review the entire application against the original wireframes.
 - [ ] Test the WhatsApp routing links to ensure they open the correct chat.
 - [ ] Final production build and deployment.
+
+## 5. Future Upgrades (Phase 6)
+*These upgrades have been discussed and noted for future implementation as the business scales:*
+- [ ] **Website Analytics (Visitor Tracking):** Integrate Vercel Analytics or Google Analytics to track daily visitors, locations, and most clicked products.
+- [ ] **Customer Testimonials / Trust Section:** Add a "Reviews" section to the Homepage to display trust-building feedback from real contractors and builders.
+- [ ] **Product Details Page & Similar Products:** Build dedicated product pages where clicking an item opens a full page, featuring a "Related Products" section to cross-sell similar items.
+- [ ] **Installable Mobile App (PWA):** Configure the website as a Progressive Web App so electricians can "Add to Home Screen" and use it like a native mobile app.
