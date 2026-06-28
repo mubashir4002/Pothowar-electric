@@ -10,7 +10,7 @@ const Home = () => {
     <>
       <Helmet>
         <title>Pothowar Electric | Trusted Electrical Supplier in Rawalpindi</title>
-        <meta name="description" content="Rawalpindi's trusted supplier for electrical items, LED lights, fans, solar panels, and more. Genuine products with honest pricing for over 15 years." />
+        <meta name="description" content="Rawalpindi's trusted supplier for electrical items, LED lights, fans, solar panels, and more. Genuine products with honest pricing for over 20 years." />
         <meta name="keywords" content="Electrical Supplier Rawalpindi, Buy Solar Panels Pakistan, Wholesale electrical items, LED Lights, Fans, DB Boxes" />
       </Helmet>
       <Hero />

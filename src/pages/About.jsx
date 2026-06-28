@@ -25,14 +25,14 @@ const About = () => {
     <>
       <Helmet>
         <title>Our History & Trust | Pothowar Electric</title>
-        <meta name="description" content="Learn about Pothowar Electric, Rawalpindi's most trusted family-owned electrical supplier. Over 15 years of experience delivering genuine products and honest pricing." />
+        <meta name="description" content="Learn about Pothowar Electric, Rawalpindi's most trusted family-owned electrical supplier. Over 20 years of experience delivering genuine products and honest pricing." />
       </Helmet>
       
       {/* ─── Hero Section ─── */}
       <section className="about-hero">
         <div className="container">
           <h1 className="about-hero-title">
-            Rawalpindi's Most Trusted Electrical Partner — <span>For Over 15 Years</span>
+            Rawalpindi's Most Trusted Electrical Partner — <span>For Over 20 Years</span>
           </h1>
           <p className="about-hero-subtitle">
             Pothowar Electric and Pothowar Traders — a family legacy that has been powering homes,
@@ -76,7 +76,7 @@ const About = () => {
           <div className="story-content">
             <p>
               Pothowar Electric was founded with a simple mission — to give the people of Rawalpindi
-              access to genuine electrical products, all under one roof, without the hassle. Over 15 years ago,
+              access to genuine electrical products, all under one roof, without the hassle. Over 20 years ago,
               our family started this journey, and today the Pothowar name has become a mark of trust in the region.
             </p>
             <p>

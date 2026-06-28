@@ -35,7 +35,7 @@ const Footer = () => {
                   <IconBolt size={22} /> {settings.storeName}
                 </div>
                 <p className="footer-brand-desc">
-                  Your trusted wholesale electrical supplier in Rawalpindi. Serving contractors, builders, and businesses with genuine products since 2014.
+                  Your trusted wholesale electrical supplier in Rawalpindi. Serving contractors, builders, and businesses with genuine products since 2005.
                 </p>
                 <div className="footer-social">
                   <button className="footer-social-btn" onClick={handleWhatsApp} aria-label="WhatsApp">
@@ -123,7 +123,7 @@ const Footer = () => {
                 © {new Date().getFullYear()} {settings.storeName}. All rights reserved.
               </span>
               <span className="footer-tagline">
-                Rawalpindi, Pakistan — Trusted since 2014
+                Rawalpindi, Pakistan — Trusted since 2005
               </span>
             </div>
           </div>
