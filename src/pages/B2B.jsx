@@ -195,7 +195,7 @@ const B2B = () => {
               <div className="hero-stat-label">Quote Turnaround</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-num">10+</div>
+              <div className="hero-stat-num">20+</div>
               <div className="hero-stat-label">Years in Business</div>
             </div>
           </div>
