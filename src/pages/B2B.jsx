@@ -186,10 +186,10 @@ const B2B = () => {
               <div className="hero-stat-num">500+</div>
               <div className="hero-stat-label">B2B Clients Served</div>
             </div>
-            <div className="hero-stat">
+            {/* <div className="hero-stat">
               <div className="hero-stat-num">30%</div>
               <div className="hero-stat-label">Max Bulk Discount</div>
-            </div>
+            </div> */}
             <div className="hero-stat">
               <div className="hero-stat-num">4hrs</div>
               <div className="hero-stat-label">Quote Turnaround</div>

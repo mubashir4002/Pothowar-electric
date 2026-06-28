@@ -47,7 +47,7 @@ const About = () => {
           <div className="stats-grid">
             <div className="stat-card">
               <IconTrophy size={36} className="stat-icon" />
-              <div className="stat-value">15+</div>
+              <div className="stat-value">20+</div>
               <div className="stat-label">Years of Experience</div>
             </div>
             <div className="stat-card">

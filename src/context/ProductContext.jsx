@@ -21,9 +21,26 @@ export const ProductProvider = ({ children }) => {
         .select('*')
         .order('created_at', { ascending: false });
       if (prodErr) throw prodErr;
+
+      // Fetch Variants
+      const { data: varData, error: varErr } = await supabase
+        .from('product_variants')
+        .select('*');
+        
+      let variants = varData || [];
+      if (varErr) {
+        console.warn('Warning: product_variants table might not exist yet.', varErr);
+      }
       
       // Map image_url to image for backwards compatibility with UI
-      const mappedProducts = prodData.map(p => ({ ...p, image: p.image_url }));
+      const mappedProducts = prodData.map(p => {
+        const prodVariants = variants.filter(v => v.product_id === p.id).sort((a,b) => a.id - b.id);
+        return { 
+          ...p, 
+          image: p.image_url,
+          variants: prodVariants 
+        };
+      });
       setProducts(mappedProducts || []);
 
       // Fetch Categories
@@ -53,16 +70,37 @@ export const ProductProvider = ({ children }) => {
         .from('products')
         .insert([{
           name: newProduct.name,
-          price: Number(newProduct.price),
+          price: Number(newProduct.price) || 0,
           category: newProduct.category,
           description: newProduct.description,
           brand: newProduct.brand,
-          image_url: newProduct.image // It might be a Supabase Storage URL now
+          image_url: newProduct.image
         }])
         .select();
       if (error) throw error;
+      
+      let newVariants = [];
+      if (data && newProduct.variants && newProduct.variants.length > 0) {
+        const productId = data[0].id;
+        const variantsToInsert = newProduct.variants.map(v => ({
+          product_id: productId,
+          label: v.label,
+          price: Number(v.price),
+          color: v.color || null,
+          in_stock: v.in_stock !== false
+        }));
+        
+        const { data: varData, error: varErr } = await supabase
+          .from('product_variants')
+          .insert(variantsToInsert)
+          .select();
+          
+        if (varErr) throw varErr;
+        newVariants = varData || [];
+      }
+
       if (data) {
-        setProducts([{ ...data[0], image: data[0].image_url }, ...products]);
+        setProducts([{ ...data[0], image: data[0].image_url, variants: newVariants }, ...products]);
       }
     } catch (err) {
       console.error('Error adding product:', err);
@@ -76,7 +114,7 @@ export const ProductProvider = ({ children }) => {
         .from('products')
         .update({
           name: updatedProduct.name,
-          price: Number(updatedProduct.price),
+          price: Number(updatedProduct.price) || 0,
           category: updatedProduct.category,
           description: updatedProduct.description,
           brand: updatedProduct.brand,
@@ -85,8 +123,44 @@ export const ProductProvider = ({ children }) => {
         .eq('id', updatedProduct.id)
         .select();
       if (error) throw error;
+
+      let newVariants = [];
+      if (updatedProduct.variants !== undefined) {
+        // Delete all old variants for this product
+        const { error: delErr } = await supabase.from('product_variants').delete().eq('product_id', updatedProduct.id);
+        if (delErr) {
+           console.warn('Could not delete old variants', delErr);
+        }
+        
+        // Insert new ones if any
+        if (updatedProduct.variants.length > 0) {
+          const variantsToInsert = updatedProduct.variants.map(v => ({
+            product_id: updatedProduct.id,
+            label: v.label,
+            price: Number(v.price),
+            color: v.color || null,
+            in_stock: v.in_stock !== false
+          }));
+          const { data: varData, error: varErr } = await supabase
+            .from('product_variants')
+            .insert(variantsToInsert)
+            .select();
+          if (varErr) throw varErr;
+          newVariants = varData || [];
+        }
+      }
+
       if (data) {
-        setProducts(products.map(p => p.id === updatedProduct.id ? { ...data[0], image: data[0].image_url } : p));
+        setProducts(products.map(p => {
+          if (p.id === updatedProduct.id) {
+            return { 
+              ...data[0], 
+              image: data[0].image_url, 
+              variants: updatedProduct.variants !== undefined ? newVariants : p.variants 
+            };
+          }
+          return p;
+        }));
       }
     } catch (err) {
       console.error('Error updating product:', err);

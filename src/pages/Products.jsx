@@ -14,7 +14,11 @@ import { Helmet } from 'react-helmet-async';
 import './Products.css';
 
 import { useProduct } from '../context/ProductContext';
-const CATEGORIES_FILTER = ['All'];
+
+const COLOR_MAP = {
+  Red: '#ef4444', Black: '#1e293b', Green: '#22c55e', Blue: '#3b82f6',
+  Yellow: '#eab308', White: '#f8fafc', Brown: '#92400e', Grey: '#9ca3af',
+};
 
 const getCategoryIcon = (category) => {
   switch (category) {
@@ -41,8 +45,11 @@ const Products = () => {
 
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
-  const [maxPrice, setMaxPrice] = useState(135000);
+  const [maxPrice, setMaxPrice] = useState(900000);
   const [addedItem, setAddedItem] = useState(null);
+
+  // Track selected variant per product
+  const [selectedVariants, setSelectedVariants] = useState({});
 
   // Sync state if URL changes (e.g. from navbar)
   useEffect(() => {
@@ -50,12 +57,41 @@ const Products = () => {
     setSelectedCategory(searchParams.get('category') || 'All');
   }, [searchParams]);
 
+  const getSelectedVariant = (product) => {
+    if (!product.variants || product.variants.length === 0) return null;
+    const selectedId = selectedVariants[product.id];
+    if (selectedId) {
+      const found = product.variants.find(v => v.id === selectedId);
+      if (found) return found;
+    }
+    // Default to first in-stock variant, or first overall
+    return product.variants.find(v => v.in_stock) || product.variants[0];
+  };
+
+  const getDisplayPrice = (product) => {
+    const variant = getSelectedVariant(product);
+    if (variant) return variant.price;
+    return product.price;
+  };
+
   const handleAddToCart = (product) => {
-    addToCart(product);
-    setAddedItem(product.id);
+    const variant = getSelectedVariant(product);
+    const cartProduct = {
+      ...product,
+      selectedVariant: variant || null,
+    };
+    addToCart(cartProduct);
+
+    const addedKey = variant ? `${product.id}-${variant.id}` : `${product.id}`;
+    setAddedItem(addedKey);
     setTimeout(() => {
       setAddedItem(null);
     }, 1500);
+  };
+
+  const getAddedKey = (product) => {
+    const variant = getSelectedVariant(product);
+    return variant ? `${product.id}-${variant.id}` : `${product.id}`;
   };
 
   const getCategoryCount = (cat) => {
@@ -66,11 +102,18 @@ const Products = () => {
   const handleResetFilters = () => {
     setSearchQuery('');
     setSelectedCategory('All');
-    setMaxPrice(135000);
+    setMaxPrice(900000);
   };
 
   const handleWhatsAppAsk = (product) => {
-    const message = `Hi Pothowar Electric, I am interested in details regarding "${product.name}" priced at Rs. ${product.price.toLocaleString()}. Is this item in stock?`;
+    const variant = getSelectedVariant(product);
+    let productDesc = product.name;
+    if (variant) {
+      productDesc += ` - ${variant.label}`;
+      if (variant.color) productDesc += ` (${variant.color})`;
+    }
+    const price = variant ? variant.price : product.price;
+    const message = `Hi Pothowar Electric, I am interested in details regarding "${productDesc}" priced at Rs. ${price.toLocaleString()}. Is this item in stock?`;
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/923348700655?text=${encoded}`, '_blank');
   };
@@ -80,7 +123,12 @@ const Products = () => {
       product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.brand.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-    const matchesPrice = product.price <= maxPrice;
+    
+    // For price filtering: check base price OR any variant price
+    let matchesPrice = product.price <= maxPrice;
+    if (product.variants && product.variants.length > 0) {
+      matchesPrice = product.variants.some(v => v.price <= maxPrice);
+    }
 
     return matchesSearch && matchesCategory && matchesPrice;
   });
@@ -136,14 +184,14 @@ const Products = () => {
                 <input
                   type="range"
                   className="price-range-slider"
-                  min="180"
-                  max="135000"
-                  step="50"
+                  min="100"
+                  max="900000"
+                  step="100"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
                 />
                 <div className="price-range-labels">
-                  <span>Min: Rs. 180</span>
+                  <span>Min: Rs. 100</span>
                   <span>Max: Rs. {maxPrice.toLocaleString()}</span>
                 </div>
               </div>
@@ -174,45 +222,98 @@ const Products = () => {
               </div>
             ) : (
               <div className="catalog-grid">
-                {filteredProducts.map((product) => (
-                  <div key={product.id} className="catalog-card">
-                    <div className="card-img-wrapper">
-                      <span className="card-badge-cat">{product.category}</span>
-                      {product.image
-                        ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
-                        : getCategoryIcon(product.category)
-                      }
-                    </div>
-                    <div className="card-info">
-                      <span className="card-brand">{product.brand}</span>
-                      <h3 className="card-name">{product.name}</h3>
-                      <p className="card-desc" title={product.description}>
-                        {product.description}
-                      </p>
-                      <div className="card-bottom">
-                        <div className="card-price-row">
-                          <span className="card-price-label">PRICE</span>
-                          <span className="card-price-val">Rs. {product.price.toLocaleString()}</span>
-                        </div>
-                        <div className="card-buttons">
-                          <button
-                            className={`btn-primary card-btn-buy ${addedItem === product.id ? 'added' : ''}`}
-                            onClick={() => handleAddToCart(product)}
-                            style={addedItem === product.id ? { backgroundColor: '#10b981', borderColor: '#10b981' } : {}}
-                          >
-                            {addedItem === product.id ? 'Added ✓' : 'Buy'}
-                          </button>
-                          <button
-                            className="btn-success card-btn-ask"
-                            onClick={() => handleWhatsAppAsk(product)}
-                          >
-                            <IconBrandWhatsapp size={16} /> Request Info
-                          </button>
+                {filteredProducts.map((product) => {
+                  const currentVariant = getSelectedVariant(product);
+                  const displayPrice = getDisplayPrice(product);
+                  const addedKey = getAddedKey(product);
+                  const hasVariants = product.variants && product.variants.length > 0;
+
+                  return (
+                    <div key={product.id} className="catalog-card">
+                      <div className="card-img-wrapper">
+                        <span className="card-badge-cat">{product.category}</span>
+                        {product.image
+                          ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                          : getCategoryIcon(product.category)
+                        }
+                      </div>
+                      <div className="card-info">
+                        <span className="card-brand">{product.brand}</span>
+                        <h3 className="card-name">{product.name}</h3>
+                        <p className="card-desc" title={product.description}>
+                          {product.description}
+                        </p>
+
+                        {/* Variant Selector */}
+                        {hasVariants && (
+                          <div className="variant-selector">
+                            <select
+                              className="variant-select"
+                              value={currentVariant?.id || ''}
+                              onChange={(e) => {
+                                setSelectedVariants(prev => ({
+                                  ...prev,
+                                  [product.id]: Number(e.target.value)
+                                }));
+                              }}
+                            >
+                              {product.variants.map(v => (
+                                <option key={v.id} value={v.id} disabled={!v.in_stock}>
+                                  {v.label}{v.color ? ` — ${v.color}` : ''}{!v.in_stock ? ' (Out of Stock)' : ''} — Rs. {v.price.toLocaleString()}
+                                </option>
+                              ))}
+                            </select>
+
+                            {/* Color swatches */}
+                            {product.variants.some(v => v.color) && (
+                              <div className="variant-color-swatches">
+                                {product.variants.filter(v => v.color).map(v => (
+                                  <span
+                                    key={v.id}
+                                    className={`swatch-dot ${currentVariant?.id === v.id ? 'active' : ''}`}
+                                    style={{ backgroundColor: COLOR_MAP[v.color] || v.color }}
+                                    title={`${v.label} — ${v.color}`}
+                                    onClick={() => {
+                                      if (v.in_stock) {
+                                        setSelectedVariants(prev => ({
+                                          ...prev,
+                                          [product.id]: v.id
+                                        }));
+                                      }
+                                    }}
+                                  ></span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        <div className="card-bottom">
+                          <div className="card-price-row">
+                            <span className="card-price-label">PRICE</span>
+                            <span className="card-price-val">Rs. {displayPrice.toLocaleString()}</span>
+                          </div>
+                          <div className="card-buttons">
+                            <button
+                              className={`btn-primary card-btn-buy ${addedItem === addedKey ? 'added' : ''}`}
+                              onClick={() => handleAddToCart(product)}
+                              style={addedItem === addedKey ? { backgroundColor: '#10b981', borderColor: '#10b981' } : {}}
+                              disabled={currentVariant && !currentVariant.in_stock}
+                            >
+                              {addedItem === addedKey ? 'Added ✓' : (currentVariant && !currentVariant.in_stock ? 'Out of Stock' : 'Buy')}
+                            </button>
+                            <button
+                              className="btn-success card-btn-ask"
+                              onClick={() => handleWhatsAppAsk(product)}
+                            >
+                              <IconBrandWhatsapp size={16} /> Request Info
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </main>

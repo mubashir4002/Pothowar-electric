@@ -4,6 +4,8 @@ import { supabase } from '../../lib/supabase';
 import { IconPlus, IconEdit, IconTrash, IconX, IconPhoto, IconUpload, IconLoader } from '@tabler/icons-react';
 import './ProductList.css';
 
+const COLOR_PRESETS = ['Red', 'Black', 'Green', 'Blue', 'Yellow', 'White', 'Brown', 'Grey'];
+
 const ProductList = () => {
   const { products, addProduct, editProduct, deleteProduct, categories } = useProduct();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,6 +15,10 @@ const ProductList = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState('');
   const fileInputRef = useRef(null);
+
+  // Variants state
+  const [hasVariants, setHasVariants] = useState(false);
+  const [variants, setVariants] = useState([]);
 
   const blankForm = {
     name: '',
@@ -31,6 +37,8 @@ const ProductList = () => {
     setImagePreview(null);
     setImageFile(null);
     setNewCategoryInput('');
+    setHasVariants(false);
+    setVariants([]);
     setIsModalOpen(true);
   };
 
@@ -40,6 +48,22 @@ const ProductList = () => {
     setImagePreview(product.image || null);
     setImageFile(null);
     setNewCategoryInput('');
+
+    // Load existing variants
+    if (product.variants && product.variants.length > 0) {
+      setHasVariants(true);
+      setVariants(product.variants.map(v => ({
+        label: v.label,
+        price: v.price,
+        color: v.color || '',
+        in_stock: v.in_stock !== false,
+        showColor: !!v.color
+      })));
+    } else {
+      setHasVariants(false);
+      setVariants([]);
+    }
+
     setIsModalOpen(true);
   };
 
@@ -49,6 +73,8 @@ const ProductList = () => {
     setImagePreview(null);
     setImageFile(null);
     setNewCategoryInput('');
+    setHasVariants(false);
+    setVariants([]);
   };
 
   const handleChange = (e) => {
@@ -76,10 +102,31 @@ const ProductList = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  // ── Variant Helpers ──
+  const addVariantRow = () => {
+    setVariants(prev => [...prev, { label: '', price: '', color: '', in_stock: true, showColor: false }]);
+  };
+
+  const updateVariant = (index, field, value) => {
+    setVariants(prev => prev.map((v, i) => i === index ? { ...v, [field]: value } : v));
+  };
+
+  const removeVariant = (index) => {
+    setVariants(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const moveVariant = (index, direction) => {
+    const newVariants = [...variants];
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= newVariants.length) return;
+    [newVariants[index], newVariants[targetIndex]] = [newVariants[targetIndex], newVariants[index]];
+    setVariants(newVariants);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsUploading(true);
-    let imageUrl = form.image; // This might be base64 preview or old URL
+    let imageUrl = form.image;
 
     try {
       if (imageFile) {
@@ -102,10 +149,21 @@ const ProductList = () => {
         imageUrl = publicUrl;
       }
 
+      // Set the price: if variants exist, use the first variant price as fallback
+      const basePrice = hasVariants && variants.length > 0
+        ? Number(variants[0].price)
+        : Number(form.price);
+
       const productData = {
         ...form,
-        price: Number(form.price),
-        image: imageUrl, // Pass Supabase URL instead of Base64
+        price: basePrice,
+        image: imageUrl,
+        variants: hasVariants ? variants.map(v => ({
+          label: v.label,
+          price: Number(v.price),
+          color: v.showColor ? v.color : null,
+          in_stock: v.in_stock
+        })) : [],
       };
 
       if (currentProduct) {
@@ -126,6 +184,18 @@ const ProductList = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       deleteProduct(id);
     }
+  };
+
+  // Helper to display price in the table
+  const getDisplayPrice = (product) => {
+    if (product.variants && product.variants.length > 0) {
+      const prices = product.variants.map(v => v.price);
+      const min = Math.min(...prices);
+      const max = Math.max(...prices);
+      if (min === max) return `Rs. ${min.toLocaleString()}`;
+      return `Rs. ${min.toLocaleString()} – ${max.toLocaleString()}`;
+    }
+    return `Rs. ${product.price.toLocaleString()}`;
   };
 
   return (
@@ -171,10 +241,17 @@ const ProductList = () => {
                     </div>
                   )}
                 </td>
-                <td style={{ fontWeight: 500 }}>{product.name}</td>
+                <td style={{ fontWeight: 500 }}>
+                  {product.name}
+                  {product.variants && product.variants.length > 0 && (
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-brand-secondary)', marginLeft: '0.5rem', fontWeight: 400 }}>
+                      ({product.variants.length} variants)
+                    </span>
+                  )}
+                </td>
                 <td>{product.brand}</td>
                 <td><span className="badge-category">{product.category}</span></td>
-                <td style={{ fontWeight: 600 }}>Rs. {product.price.toLocaleString()}</td>
+                <td style={{ fontWeight: 600 }}>{getDisplayPrice(product)}</td>
                 <td>
                   <div className="action-btns" style={{ justifyContent: 'flex-end' }}>
                     <button className="btn-icon edit" onClick={() => openEditModal(product)} title="Edit">
@@ -258,15 +335,9 @@ const ProductList = () => {
                     <input type="text" name="name" value={form.name} onChange={handleChange} required placeholder="e.g. LED Bulb 12W" />
                   </div>
 
-                  <div className="modal-row-2">
-                    <div className="form-group">
-                      <label>Brand *</label>
-                      <input type="text" name="brand" value={form.brand} onChange={handleChange} required placeholder="e.g. Philips" />
-                    </div>
-                    <div className="form-group">
-                      <label>Price (Rs.) *</label>
-                      <input type="number" name="price" value={form.price} onChange={handleChange} required min="0" placeholder="0" />
-                    </div>
+                  <div className="form-group">
+                    <label>Brand *</label>
+                    <input type="text" name="brand" value={form.brand} onChange={handleChange} required placeholder="e.g. Philips" />
                   </div>
 
                   <div className="form-group">
@@ -310,13 +381,145 @@ const ProductList = () => {
                       placeholder="Brief product description…"
                     ></textarea>
                   </div>
+
+                  {/* ── VARIANTS TOGGLE ── */}
+                  <div className="variants-toggle-container">
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        checked={hasVariants}
+                        onChange={(e) => {
+                          setHasVariants(e.target.checked);
+                          if (e.target.checked && variants.length === 0) {
+                            addVariantRow();
+                          }
+                        }}
+                      />
+                      <span className="slider"></span>
+                    </label>
+                    <span className="variants-toggle-label">This product has variants</span>
+                  </div>
+
+                  {/* ── SINGLE PRICE (no variants) ── */}
+                  {!hasVariants && (
+                    <div className="form-group">
+                      <label>Price (Rs.) *</label>
+                      <input type="number" name="price" value={form.price} onChange={handleChange} required min="0" placeholder="0" />
+                    </div>
+                  )}
+
+                  {/* ── VARIANTS MANAGER ── */}
+                  {hasVariants && (
+                    <div className="variants-manager">
+                      <div className="variants-header">
+                        <h4>Variants ({variants.length})</h4>
+                        <button type="button" className="btn-add-variant" onClick={addVariantRow}>
+                          <IconPlus size={16} /> Add Variant
+                        </button>
+                      </div>
+
+                      {variants.map((variant, index) => (
+                        <div className="variant-row" key={index}>
+                          {/* Label */}
+                          <input
+                            type="text"
+                            placeholder="Label (e.g. 3kW, 7/29)"
+                            value={variant.label}
+                            onChange={(e) => updateVariant(index, 'label', e.target.value)}
+                            required
+                          />
+
+                          {/* Price */}
+                          <input
+                            type="number"
+                            placeholder="Price"
+                            value={variant.price}
+                            onChange={(e) => updateVariant(index, 'price', e.target.value)}
+                            required
+                            min="0"
+                          />
+
+                          {/* Color */}
+                          <div className="variant-color-wrapper">
+                            {variant.showColor ? (
+                              <>
+                                <select
+                                  value={COLOR_PRESETS.includes(variant.color) ? variant.color : 'Other'}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    updateVariant(index, 'color', val === 'Other' ? '' : val);
+                                  }}
+                                >
+                                  <option value="">-- Color --</option>
+                                  {COLOR_PRESETS.map(c => <option key={c} value={c}>{c}</option>)}
+                                  <option value="Other">Other</option>
+                                </select>
+                                {!COLOR_PRESETS.includes(variant.color) && variant.color !== '' && (
+                                  <input
+                                    type="text"
+                                    placeholder="Custom"
+                                    value={variant.color}
+                                    onChange={(e) => updateVariant(index, 'color', e.target.value)}
+                                    style={{ width: '80px' }}
+                                  />
+                                )}
+                                {/* Show if user selected "Other" and color is empty */}
+                                {!COLOR_PRESETS.includes(variant.color) && variant.color === '' && (
+                                  <input
+                                    type="text"
+                                    placeholder="Type color"
+                                    value=""
+                                    onChange={(e) => updateVariant(index, 'color', e.target.value)}
+                                    style={{ width: '80px' }}
+                                  />
+                                )}
+                              </>
+                            ) : (
+                              <button
+                                type="button"
+                                style={{
+                                  fontSize: '0.8rem', padding: '0.3rem 0.5rem', border: '1px dashed #cbd5e1',
+                                  background: 'transparent', borderRadius: '4px', cursor: 'pointer', color: '#64748b', whiteSpace: 'nowrap'
+                                }}
+                                onClick={() => updateVariant(index, 'showColor', true)}
+                              >
+                                + Color
+                              </button>
+                            )}
+                          </div>
+
+                          {/* In Stock Toggle */}
+                          <label className="variant-stock-toggle">
+                            <input
+                              type="checkbox"
+                              checked={variant.in_stock}
+                              onChange={(e) => updateVariant(index, 'in_stock', e.target.checked)}
+                              style={{ width: 'auto' }}
+                            />
+                            {variant.in_stock ? 'In Stock' : 'Out'}
+                          </label>
+
+                          {/* Delete */}
+                          <button type="button" className="btn-delete-variant" onClick={() => removeVariant(index)}>
+                            <IconTrash size={16} />
+                          </button>
+                        </div>
+                      ))}
+
+                      {variants.length === 0 && (
+                        <div style={{ padding: '1.5rem', textAlign: 'center', color: '#94a3b8' }}>
+                          No variants yet. Click "Add Variant" to add one.
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
               </div>
 
               <div className="modal-footer">
                 <button type="button" className="btn-outline" onClick={closeModal} disabled={isUploading}>Cancel</button>
-                <button type="submit" className="btn-primary" disabled={isUploading}>
+                <button type="submit" className="btn-primary" disabled={isUploading || (hasVariants && variants.length === 0)}>
                   {isUploading ? 'Saving...' : (currentProduct ? 'Save Changes' : 'Add Product')}
                 </button>
               </div>

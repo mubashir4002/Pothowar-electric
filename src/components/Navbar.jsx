@@ -47,7 +47,14 @@ const Navbar = () => {
 
   const handleCheckout = () => {
     const itemsText = cart
-      .map((item) => `- ${item.name} (Qty: ${item.quantity}) @ Rs. ${item.price.toLocaleString()}`)
+      .map((item) => {
+        let label = item.name;
+        if (item.selectedVariant) {
+          label += ` - ${item.selectedVariant.label}`;
+          if (item.selectedVariant.color) label += ` (${item.selectedVariant.color})`;
+        }
+        return `- ${label} x${item.quantity} = Rs. ${(item.price * item.quantity).toLocaleString()}`;
+      })
       .join('\n');
     const message = `Hello ${settings.storeName}, I would like to place an order for the following items:\n\n${itemsText}\n\n*Total Amount:* Rs. ${cartTotal.toLocaleString()}\n\nPlease confirm availability and delivery terms.`;
     const cleanWhatsapp = settings.whatsapp.replace(/[^0-9]/g, '');
@@ -225,13 +232,19 @@ const Navbar = () => {
               </div>
             ) : (
               cart.map((item) => (
-                <div key={item.id} className="cart-item">
+                <div key={item.cartKey} className="cart-item">
                   <div className="item-details">
                     <h3 className="item-name">{item.name}</h3>
+                    {item.selectedVariant && (
+                      <div style={{ fontSize: '0.8rem', color: 'var(--color-text-tertiary)', marginBottom: '0.2rem' }}>
+                        {item.selectedVariant.label}
+                        {item.selectedVariant.color && ` — ${item.selectedVariant.color}`}
+                      </div>
+                    )}
                     <div className="item-price">Rs. {(item.price * item.quantity).toLocaleString()}</div>
                   </div>
                   <div className="quantity-controls">
-                    <button className="qty-btn" onClick={() => removeFromCart(item.id)}>-</button>
+                    <button className="qty-btn" onClick={() => removeFromCart(item.cartKey)}>-</button>
                     <span className="qty-val">{item.quantity}</span>
                     <button className="qty-btn" onClick={() => addToCart(item)}>+</button>
                   </div>

@@ -8,9 +8,18 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Generate a unique cart key: product.id + variant.id (if any)
+  const getCartKey = (product) => {
+    if (product.selectedVariant) {
+      return `${product.id}-v${product.selectedVariant.id || product.selectedVariant.label}`;
+    }
+    return `${product.id}`;
+  };
+
   const addToCart = (product) => {
+    const cartKey = getCartKey(product);
     setCart((prevCart) => {
-      const existingIndex = prevCart.findIndex((item) => item.id === product.id);
+      const existingIndex = prevCart.findIndex((item) => item.cartKey === cartKey);
       if (existingIndex > -1) {
         const newCart = [...prevCart];
         newCart[existingIndex] = {
@@ -19,14 +28,25 @@ export const CartProvider = ({ children }) => {
         };
         return newCart;
       }
-      return [...prevCart, { ...product, quantity: 1 }];
+
+      // Determine the price: variant price takes priority
+      const price = product.selectedVariant
+        ? product.selectedVariant.price
+        : product.price;
+
+      return [...prevCart, {
+        ...product,
+        cartKey,
+        price,
+        quantity: 1,
+      }];
     });
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = (cartKey) => {
     setCart((prevCart) =>
       prevCart.reduce((acc, item) => {
-        if (item.id === productId) {
+        if (item.cartKey === cartKey) {
           if (item.quantity > 1) {
             acc.push({ ...item, quantity: item.quantity - 1 });
           }
