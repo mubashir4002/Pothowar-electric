@@ -10,11 +10,14 @@ import {
   IconPhone,
   IconMail,
   IconChevronDown,
-  IconUser
+  IconUser,
+  IconMoon,
+  IconSun
 } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import { useStoreSettings } from '../context/StoreSettingsContext';
 import { useProduct } from '../context/ProductContext';
+import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -30,6 +33,7 @@ const Navbar = () => {
   } = useCart();
   
   const { settings } = useStoreSettings();
+  const { isDarkMode, toggleTheme } = useTheme();
   const { categories } = useProduct();
   const navigate = useNavigate();
   
@@ -138,7 +142,10 @@ const Navbar = () => {
               </Link>
             </div>
 
-            {/* Cart & Mobile Toggle */}
+            {/* Cart & Theme & Mobile Toggle */}
+            <button className="icon-btn hover-scale" aria-label="Toggle Theme" onClick={toggleTheme} style={{ marginRight: '0.5rem', color: 'var(--color-brand-primary)' }}>
+              {isDarkMode ? <IconSun size={24} /> : <IconMoon size={24} />}
+            </button>
             <button className="icon-btn hover-scale cart-btn" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
               <IconShoppingCart size={24} />
               <span className="cart-badge">{cartCount}</span>

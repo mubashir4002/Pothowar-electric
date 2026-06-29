@@ -23,12 +23,14 @@ import { CartProvider } from './context/CartContext';
 import { ProductProvider } from './context/ProductContext';
 import { AuthProvider } from './context/AuthContext';
 import { StoreSettingsProvider } from './context/StoreSettingsContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
   return (
     <HelmetProvider>
-      <AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
         <StoreSettingsProvider>
           <ProductProvider>
             <CartProvider>
@@ -69,7 +71,8 @@ function App() {
             </CartProvider>
           </ProductProvider>
         </StoreSettingsProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </HelmetProvider>
   );
 }
