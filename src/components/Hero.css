@@ -1,5 +1,5 @@
 .hero {
-  background: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-secondary) 100%);
+  background: linear-gradient(135deg, #0C447C 0%, #185FA5 100%);
   color: #FFFFFF;
   padding: 4rem 1rem;
   text-align: center;
@@ -19,7 +19,7 @@
 
 .hero-sub {
   font-size: 1.125rem;
-  color: var(--color-brand-tertiary);
+  color: #E6F1FB;
   margin-bottom: 2rem;
 }
 

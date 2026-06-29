@@ -43,7 +43,7 @@
 }
 
 .footer-brand-name svg {
-  color: var(--color-brand-accent);
+  color: #85B7EB;
 }
 
 .footer-brand-desc {
@@ -74,9 +74,9 @@
 }
 
 .footer-social-btn:hover {
-  background: var(--color-brand-primary);
+  background: #0C447C;
   color: #FFFFFF;
-  border-color: var(--color-brand-primary);
+  border-color: #0C447C;
   transform: translateY(-2px);
 }
 
@@ -99,7 +99,7 @@
   left: 0;
   width: 28px;
   height: 2px;
-  background: var(--color-brand-accent);
+  background: #85B7EB;
   border-radius: 2px;
 }
 
@@ -122,7 +122,7 @@
 }
 
 .footer-links li a:hover {
-  color: var(--color-brand-accent);
+  color: #85B7EB;
   padding-left: 4px;
 }
 
@@ -151,7 +151,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--color-brand-accent);
+  color: #85B7EB;
 }
 
 .footer-contact-item a {
@@ -161,7 +161,7 @@
 }
 
 .footer-contact-item a:hover {
-  color: var(--color-brand-accent);
+  color: #85B7EB;
 }
 
 /* ── Bottom Bar ─── */

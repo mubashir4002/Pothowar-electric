@@ -123,6 +123,8 @@
   border-radius: var(--radius-md);
   font-family: var(--font-body);
   font-size: 0.9rem;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
   transition: border-color 0.2s;
 }
 

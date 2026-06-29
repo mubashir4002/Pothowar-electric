@@ -4,7 +4,7 @@
 
 /* Hero Banner */
 .about-hero {
-  background: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-secondary) 100%);
+  background: linear-gradient(135deg, #0C447C 0%, #185FA5 100%);
   padding: 5rem 1.5rem;
   text-align: center;
   color: #FFFFFF;
@@ -21,12 +21,12 @@
 }
 
 .about-hero-title span {
-  color: var(--color-brand-accent);
+  color: #85B7EB;
 }
 
 .about-hero-subtitle {
   font-size: 1.1rem;
-  color: var(--color-brand-tertiary);
+  color: #E6F1FB;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
@@ -225,7 +225,7 @@
 
 /* CTA Section */
 .about-cta {
-  background: var(--color-brand-primary);
+  background: #0C447C;
   padding: 5rem 1.5rem;
   text-align: center;
   color: #FFFFFF;
@@ -240,7 +240,7 @@
 
 .about-cta-desc {
   font-size: 1.1rem;
-  color: var(--color-brand-tertiary);
+  color: #E6F1FB;
   max-width: 600px;
   margin: 0 auto 2rem;
   line-height: 1.6;

@@ -1,13 +1,13 @@
 .b2b-section {
-  background-color: var(--color-brand-primary);
+  background-color: #0C447C;
   color: #FFFFFF;
   padding: 5rem 1rem;
   text-align: center;
 }
 
 [data-theme="dark"] .b2b-section {
-  background-color: var(--color-bg-secondary);
-  border-top: var(--border-light);
+  background-color: #0C447C;
+  border-top: none;
 }
 
 .b2b-container {
@@ -21,18 +21,18 @@
 }
 
 .b2b-sub {
-  color: var(--color-brand-accent);
+  color: #85B7EB;
   font-size: 1.125rem;
   margin-bottom: 2rem;
 }
 
 .b2b-btn {
   background-color: #FFFFFF;
-  color: var(--color-brand-primary);
+  color: #0C447C;
   font-weight: 600;
   padding: 1rem 2rem;
 }
 
 .b2b-btn:hover {
-  background-color: var(--color-brand-tertiary);
+  background-color: #E6F1FB;
 }
