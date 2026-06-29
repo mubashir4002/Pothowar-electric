@@ -440,7 +440,7 @@
 
 .cat-chip {
   background: var(--color-bg-primary);
-  border: 1px solid #E5E7EB;
+  border: var(--border-light);
   color: var(--color-text-secondary);
   font-size: 0.8rem;
   font-weight: 500;
@@ -466,7 +466,7 @@
    PROCESS / STEPS SECTION
 ================================ */
 .b2b-process-section {
-  background: var(--color-brand-primary);
+  background: #0C447C;
   padding: 5rem 0;
 }
 
@@ -475,7 +475,7 @@
 }
 
 .b2b-process-section .section-title::after {
-  background: var(--color-brand-accent);
+  background: #85B7EB;
 }
 
 .process-steps {
@@ -519,7 +519,7 @@
   border-radius: 50%;
   border: 2px solid rgba(133, 183, 235, 0.4);
   background: rgba(133, 183, 235, 0.1);
-  color: var(--color-brand-accent);
+  color: #85B7EB;
   font-size: 1.2rem;
   font-weight: 700;
   font-family: var(--font-heading);

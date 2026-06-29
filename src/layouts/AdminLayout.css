@@ -7,7 +7,7 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #f3f4f6; /* Light gray background for dashboard */
+  background-color: var(--color-bg-secondary);
   font-family: var(--font-body);
 }
 
@@ -103,8 +103,8 @@
 /* Topbar */
 .admin-topbar {
   height: 64px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E5E7EB;
+  background-color: var(--color-bg-primary);
+  border-bottom: var(--border-light);
   display: flex;
   align-items: center;
   justify-content: space-between;
