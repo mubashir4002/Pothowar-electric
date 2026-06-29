@@ -147,7 +147,7 @@ const Navbar = () => {
               {isDarkMode ? <IconSun size={24} /> : <IconMoon size={24} />}
             </button>
             <button className="icon-btn hover-scale cart-btn" aria-label="Cart" onClick={() => setIsCartOpen(true)}>
-              <IconShoppingCart size={24} />
+              <IconShoppingCart size={24} stroke={1.5} style={{ color: 'inherit' }} />
               <span className="cart-badge">{cartCount}</span>
             </button>
             <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(true)}>
