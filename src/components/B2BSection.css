@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+[data-theme="dark"] .b2b-section {
+  background-color: var(--color-bg-secondary);
+  border-top: var(--border-light);
+}
+
 .b2b-container {
   max-width: 800px;
 }

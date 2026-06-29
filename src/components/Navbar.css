@@ -64,8 +64,8 @@
 
 /* --- Main Navbar --- */
 .navbar {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--color-bg-primary);
+  border-bottom: var(--border-light);
   padding: 0.8rem 0;
   position: sticky;
   top: 0;
@@ -193,8 +193,8 @@
   top: 100%;
   left: 0;
   margin-top: 0.5rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-bg-primary);
+  border: var(--border-light);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   min-width: 200px;
