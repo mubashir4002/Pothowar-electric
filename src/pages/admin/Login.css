@@ -69,7 +69,9 @@
 
 .login-form .form-control {
   padding: 0.75rem 1rem;
-  border: 1px solid #E5E7EB;
+  border: var(--border-light);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   outline: none;
@@ -112,5 +114,5 @@
   background: var(--color-bg-subtle);
   padding: 0.75rem;
   border-radius: var(--radius-sm);
-  border: 1px dashed #E5E7EB;
+  border: 1px dashed var(--border-light);
 }

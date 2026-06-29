@@ -49,7 +49,7 @@ const CategoryList = () => {
       </div>
 
       {/* Add Category Form */}
-      <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: 8, padding: '1.5rem', marginBottom: '1.5rem' }}>
+      <div style={{ background: 'var(--color-bg-primary)', border: 'var(--border-light)', borderRadius: 8, padding: '1.5rem', marginBottom: '1.5rem' }}>
         <h3 style={{ marginBottom: '1rem', fontSize: '1rem', color: 'var(--color-text-primary)' }}>Add New Category</h3>
         <form onSubmit={handleAdd} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
           <div style={{ flex: 1 }}>
@@ -59,7 +59,8 @@ const CategoryList = () => {
               onChange={(e) => { setNewCat(e.target.value); setError(''); }}
               placeholder="e.g. Wiring & Cable"
               style={{
-                width: '100%', padding: '0.75rem 1rem', border: '1px solid #E5E7EB',
+                width: '100%', padding: '0.75rem 1rem', border: 'var(--border-light)',
+                background: 'var(--color-bg-primary)', color: 'var(--color-text-primary)',
                 borderRadius: 6, fontFamily: 'inherit', fontSize: '0.95rem',
                 outline: 'none',
               }}
@@ -73,10 +74,10 @@ const CategoryList = () => {
       </div>
 
       {/* Categories List */}
-      <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: 8, overflow: 'hidden' }}>
+      <div style={{ background: 'var(--color-bg-primary)', border: 'var(--border-light)', borderRadius: 8, overflow: 'hidden' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: '#F9FAFB' }}>
+            <tr style={{ background: 'var(--color-bg-subtle)' }}>
               <th style={{ padding: '0.75rem 1rem', textAlign: 'left', fontWeight: 600, color: 'var(--color-text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Category Name
               </th>
@@ -92,7 +93,7 @@ const CategoryList = () => {
             {categories.map((cat, i) => {
               const count = products.filter(p => p.category === cat).length;
               return (
-                <tr key={cat} style={{ borderTop: i === 0 ? 'none' : '1px solid #E5E7EB' }}>
+                <tr key={cat} style={{ borderTop: i === 0 ? 'none' : 'var(--border-light)' }}>
                   <td style={{ padding: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                     <div style={{
                       width: 34, height: 34, borderRadius: 8,
@@ -106,8 +107,8 @@ const CategoryList = () => {
                   </td>
                   <td style={{ padding: '1rem', textAlign: 'center' }}>
                     <span style={{
-                      background: count > 0 ? '#e0f2fe' : '#F3F4F6',
-                      color: count > 0 ? '#0284c7' : '#9CA3AF',
+                      background: count > 0 ? 'rgba(56, 189, 248, 0.15)' : 'var(--color-bg-secondary)',
+                      color: count > 0 ? '#38bdf8' : 'var(--color-text-tertiary)',
                       padding: '0.25rem 0.75rem', borderRadius: 20, fontSize: '0.8rem', fontWeight: 600
                     }}>
                       {count} product{count !== 1 ? 's' : ''}

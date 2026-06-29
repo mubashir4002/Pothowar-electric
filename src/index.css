@@ -36,7 +36,7 @@
   --font-body: 'Inter', sans-serif;
 }
 
-[data-theme="dark"] {
+[data-theme="dark"], .admin-layout, .admin-login-page {
   color-scheme: dark;
   /* Color Palette - Dark Mode */
   --color-brand-primary: #85B7EB; /* Lighter accent color for dark mode */

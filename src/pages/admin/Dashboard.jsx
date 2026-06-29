@@ -24,7 +24,7 @@ const Dashboard = () => {
         gap: '1.5rem' 
       }}>
         
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
+        <div style={{ background: 'var(--color-bg-primary)', padding: '1.5rem', borderRadius: '8px', border: 'var(--border-light)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
             <div style={{ background: 'rgba(24, 95, 165, 0.1)', color: 'var(--color-brand-primary)', padding: '0.75rem', borderRadius: '8px' }}>
               <IconPackage size={24} />
@@ -34,7 +34,7 @@ const Dashboard = () => {
           <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{products.length}</div>
         </div>
 
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
+        <div style={{ background: 'var(--color-bg-primary)', padding: '1.5rem', borderRadius: '8px', border: 'var(--border-light)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
             <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '0.75rem', borderRadius: '8px' }}>
               <IconShoppingCart size={24} />
@@ -45,7 +45,7 @@ const Dashboard = () => {
           <p style={{ fontSize: '0.8rem', color: 'var(--color-text-tertiary)', marginTop: '0.5rem' }}>*Orders go to WhatsApp</p>
         </div>
 
-        <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
+        <div style={{ background: 'var(--color-bg-primary)', padding: '1.5rem', borderRadius: '8px', border: 'var(--border-light)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
             <div style={{ background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6', padding: '0.75rem', borderRadius: '8px' }}>
               <IconUsers size={24} />
@@ -58,7 +58,7 @@ const Dashboard = () => {
 
       </div>
 
-      <div style={{ marginTop: '3rem', background: '#fff', padding: '2rem', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
+      <div style={{ marginTop: '3rem', background: 'var(--color-bg-primary)', padding: '2rem', borderRadius: '8px', border: 'var(--border-light)' }}>
         <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>Welcome to your Dashboard</h3>
         <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
           This is your administrative control panel. From here, you can manage your website's data.
