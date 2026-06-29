@@ -39,7 +39,7 @@
   gap: 0.5rem;
   background: rgba(133, 183, 235, 0.15);
   border: 1px solid rgba(133, 183, 235, 0.3);
-  color: var(--color-brand-accent);
+  color: #85B7EB;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -61,7 +61,7 @@
 }
 
 .b2b-hero-title span {
-  color: var(--color-brand-accent);
+  color: #85B7EB;
 }
 
 .b2b-hero-subtitle {
