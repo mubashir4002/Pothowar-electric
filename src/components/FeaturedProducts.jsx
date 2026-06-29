@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IconBulb, IconWind, IconSolarPanel, IconBrandWhatsapp } from '@tabler/icons-react';
 import { useCart } from '../context/CartContext';
 import './FeaturedProducts.css';
@@ -67,11 +68,15 @@ const FeaturedProducts = () => {
 
             return (
               <div key={prod.id} className="prod-card hover-scale">
-                <div className="prod-img">
-                  {React.cloneElement(getIconForCategory(prod.category), { className: 'prod-icon-svg' })}
-                </div>
+                <Link to={`/products/${prod.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="prod-img">
+                    {React.cloneElement(getIconForCategory(prod.category), { className: 'prod-icon-svg' })}
+                  </div>
+                </Link>
                 <div className="prod-info">
-                  <h3 className="prod-name">{prod.name}</h3>
+                  <Link to={`/products/${prod.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <h3 className="prod-name">{prod.name}</h3>
+                  </Link>
 
                   {/* Variant selector for featured products */}
                   {hasVariants && (

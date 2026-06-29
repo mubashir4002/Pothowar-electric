@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import {
   IconBulb,
@@ -230,16 +230,20 @@ const Products = () => {
 
                   return (
                     <div key={product.id} className="catalog-card">
-                      <div className="card-img-wrapper">
-                        <span className="card-badge-cat">{product.category}</span>
-                        {product.image
-                          ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
-                          : getCategoryIcon(product.category)
-                        }
-                      </div>
+                      <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="card-img-wrapper">
+                          <span className="card-badge-cat">{product.category}</span>
+                          {product.image
+                            ? <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                            : getCategoryIcon(product.category)
+                          }
+                        </div>
+                      </Link>
                       <div className="card-info">
                         <span className="card-brand">{product.brand}</span>
-                        <h3 className="card-name">{product.name}</h3>
+                        <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                          <h3 className="card-name">{product.name}</h3>
+                        </Link>
                         <p className="card-desc" title={product.description}>
                           {product.description}
                         </p>
